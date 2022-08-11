@@ -46,17 +46,9 @@ app.use(express.json())
 
 app.get('/', async (req, res, next)=>{
    
-     await req.sessionStore.all((err, sess)=>{
-        if(err){
-            console.log(err)
-        } else {
-
-            console.log(`List of active sessions:  \n`, sess)
-        }
-     })
     res.render('pages/index', {
         title: 'Welcome to Blogga' ,
-        user: req.session.user,
+       sessUser: req.session.user,
         
  })
 })
@@ -73,7 +65,7 @@ app.get('/profile', async (req, res)=>{
     }
     res.render('pages/profile', {
         title: `User profile`,
-        user: req.session.user,
+        sessUser: req.session.user,
         users: userList,
         posts: postList,
     })
@@ -93,13 +85,22 @@ req.sessionStore.all((err, sess)=>{
 res.redirect('/')
 
 })
+app.get('/posts', async (req, res) => {
+    res.redirect('/')
+})
 app.get('/users', async (req, res) =>{
     let userList = []
- 
+    
     try {
           let users = await User.find()
         for (let i = 0; i < users.length; i++){
-        userList.push(users[i].user)
+            let userData = {
+                user: users[i].user,
+                born: users[i].createdAt,
+                lastActive: users[i].meta.lastVisited,
+                status: users[i].meta.isOnline,
+            }
+        userList.push(userData)
     }
     } catch (error) {
         console.log(error.message)
@@ -108,7 +109,7 @@ app.get('/users', async (req, res) =>{
    
     res.render('pages/users', {
         title: 'Blogga | Users' ,
-        user: req.session.user,
+        sessUser: req.session.user,
         users: userList,
     })
     
@@ -139,12 +140,12 @@ app.post('/login', async (req, res)=>{
                                 if(err){
                                     console.log(err)
                                 }
-                                return
+                                
                             })
                             
                             
                           }
-                          return
+                          
                         })
                     }
                 })
@@ -179,7 +180,15 @@ app.post('/register', async (req, res, next)=>{
             res.status(400).json({messages:`Please retype your password`, fields: [`confirm`]})
         }
 })
- app.get('/logout', async (req, res)=>{
+app.get('/logout', async (req, res)=>{
+    try {
+        let resp = await User.updateOne({user: req.session.user}, {meta:{lastVisited: Date.now()}})
+        console.log(`Mathed: ${resp.matchedCount}, modified: ${resp.modifiedCount}`)
+    } catch (error) {
+        console.log(error)
+    }
+
+
 await req.session.destroy((err)=>{
     if(err){
         console.log(err)
@@ -188,8 +197,8 @@ await req.session.destroy((err)=>{
     res.redirect('/')
     
     })
-    
- })
+})
+ 
 
 app.use(errorHandler)
 

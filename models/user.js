@@ -27,6 +27,9 @@ const userSchema = new Schema({
         minLength: [8, 'Password must be at least 8 characters long.'],
         maxLength: [30, `Password must not surpass 30 characters.`],
     },
+    nickName: {
+        type: String,
+    },
     createdAt:{
         type: Date,
         required: true,
@@ -34,6 +37,7 @@ const userSchema = new Schema({
     },
     meta: {
         lastVisited: {
+            default: Date.now(),
             type: Date
         },
         isOnline: {

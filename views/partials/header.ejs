@@ -1,11 +1,11 @@
 <div class="header-container">
     <div class="login-zone">
-        <% if(!user){   %>
+        <% if(!sessUser){   %>
             <button id="log-btn" class="button">LOG IN</button>
         <% } else {   %>
             <a href="/logout"><button id="logout-btn" class="button">LOG OUT</button></a>
             <div class="user-box">
-                <p>Welcome <%= user %></p>
+                <p>Welcome <%= sessUser %></p>
                 <a href="/profile"> My profile </a>
             </div>
         <% } %>
