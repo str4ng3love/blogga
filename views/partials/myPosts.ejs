@@ -1,0 +1,15 @@
+<div class="options-item">
+    <div>
+        <h2>My Posts</h2>
+      
+       
+        <% if(posts.length == 0){ %>
+            <h2>You have not posted yet</h2>
+        <% } else { %>
+            <% posts.forEach(post=>{ %>
+                <div class="item"><span> <%= post %> </span></div>
+        <%      })  %>
+        <%  } %>
+        
+    </div>
+</div>

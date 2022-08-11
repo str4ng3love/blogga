@@ -1,0 +1,67 @@
+@import url(header.css);
+@import url(form.css);
+@import url(users.css);
+@import url(profile.css);
+:root {
+    --colorMain: black;
+    --colorHover: #CAC7F5;
+    --colorBackground: #A9B3DE;
+    --color1: #A9B3DE;
+    --color2: #BEDAFA;
+    --color3: #BBA9DE;
+    --colorErr:rgba(186, 51, 51, 0.693);
+    --headerH: 5.5rem;
+    --footerH: 0rem;
+    --wrapperH: calc(100vh - calc(var(--footerH) + var(--headerH)));
+    --boxShadow: 0 0 1rem black;
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    color: black;
+    list-style: none;
+}
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.button {
+    background-color: #f3f3f3;
+    cursor: pointer;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+
+}
+.button:hover {
+    background-color: rgb(207, 207, 207);
+
+}
+.button:active {
+    background-color: rgb(92, 90, 143);
+
+}
+.wrapper {
+    width: 75%;
+    margin: 0 auto;
+    height: var(--wrapperH);
+    background-color: var(--colorBackground);
+}
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+ 
+ }
+ .item > * {
+     padding: 0.25rem;
+ }
+ .item > *:hover {
+     background-color: var(--colorHover);
+     
+ }

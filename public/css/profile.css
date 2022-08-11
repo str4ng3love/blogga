@@ -1,0 +1,23 @@
+.options-container {
+    padding: 1.5rem;
+    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) ;
+    background-color: var(--color1);
+}
+.options-item {
+    padding:1rem;
+   
+}
+.options-item > * {
+    background-color: var(--color2);
+    box-shadow: none;
+    border: none;
+}
+.options-item > form, .options-item > div{
+    box-shadow: var(--boxShadow);
+}
+.options-item h2{
+    display: flex;
+    justify-content: center;
+}

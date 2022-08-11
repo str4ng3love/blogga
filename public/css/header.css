@@ -1,0 +1,52 @@
+
+.header-container {
+    background-color: var(--colorMain);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: var(--headerH);
+}
+.login-zone {
+    padding: 1rem;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.navbar ul {
+    display: flex;
+    justify-content: space-between;
+
+}
+.navbar li {
+    margin: 0 0.1rem;
+}
+.navbar a {
+    background-color: black;
+    padding: 1rem;
+    color: white;
+    font-size: 1.5rem;
+}
+.navbar a:hover {
+    background-color: var(--colorHover);
+    padding: 1rem;
+    color: black;
+    font-size: 1.5rem;
+}
+.user-box {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user-box > * {
+    color: white;
+    padding: 1rem;
+    border: solid white 1px;
+    margin: 0 0.2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.user-box a:hover {
+    background-color: var(--colorHover);
+    padding: 1rem;
+    color: black;
+}

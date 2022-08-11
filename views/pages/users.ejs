@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <%- include('../partials/head'); -%>
+</head>
+
+<body>
+
+    <%- include('../partials/header'); -%>
+<div class="wrapper">
+    
+    <h1>List of our users:</h1>
+    <div class="user-list">
+      
+        <% if(users){ %>
+            <% users.forEach(user=>{ %>
+                <div class="user"><span><%= user %></span> </div>
+        <%    }) %>
+        <% } %>
+      
+  
+   
+
+    </div>
+</div>
+</body>
+<script src="/static/script.js" type="module"></script>
+
+</html>

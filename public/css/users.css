@@ -1,0 +1,22 @@
+.user-list {
+    padding: 1rem 0;
+    display: grid;
+    gap:1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr) );
+   
+    
+}
+.user {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1rem;
+
+}
+.user > * {
+    padding: 0.25rem;
+}
+.user > *:hover {
+    background-color: var(--colorHover);
+    
+}
