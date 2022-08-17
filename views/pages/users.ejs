@@ -14,13 +14,11 @@
         <% if(users){ %>
             <% users.forEach(user=>{ %>
                 <div class="user">
-                    <div>
-                    <span><%= user.user %> </span>
-                <% if(sessUser){ %>
-                    <span><%= user.status ? '🟢' : '🔴' %></span> 
-              <%  }    %>
-                 
-                    </div>
+                    <a href="/user<%= user.user%>">
+                        
+                            <%= user.user %> 
+                        
+                    </a>
                 </div>
         <%    }) %>
         <% } %>

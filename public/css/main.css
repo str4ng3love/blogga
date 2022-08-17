@@ -2,6 +2,8 @@
 @import url(form.css);
 @import url(users.css);
 @import url(profile.css);
+@import url(posts.css);
+@import  url(postForm.css);
 :root {
     --colorMain: black;
     --colorHover: #CAC7F5;
@@ -47,6 +49,7 @@ h1 {
 }
 .wrapper {
     width: 75%;
+    overflow-y: scroll;
     margin: 0 auto;
     height: var(--wrapperH);
     background-color: var(--colorBackground);
@@ -65,3 +68,23 @@ h1 {
      background-color: var(--colorHover);
      
  }
+/* width */
+::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: black
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--color2);
+    border: solid black 0.1rem
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color3);
+  }

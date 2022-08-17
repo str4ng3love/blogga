@@ -1,4 +1,5 @@
 .options-container {
+
     padding: 1.5rem;
     gap: 1rem;
     display: grid;
@@ -7,12 +8,14 @@
 }
 .options-item {
     padding:1rem;
+    
    
 }
 .options-item > * {
     background-color: var(--color2);
     box-shadow: none;
     border: none;
+  
 }
 .options-item > form, .options-item > div{
     box-shadow: var(--boxShadow);
@@ -20,4 +23,28 @@
 .options-item h2{
     display: flex;
     justify-content: center;
+}
+.icons span {
+    padding: 0.2rem;
+    cursor: pointer;
+}
+
+.icons span:hover {
+    background-color: var(--color1);
+}
+.add-friend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--color2);
+    z-index: 10000;
+    border: solid black 0.2rem;
+    box-shadow: 0 0 1rem black;
+}
+.add-friend > * {
+    padding: 1rem;
+    margin: 0.3rem;
+    font-weight: bold;
+    font-size: 1.2rem;
 }

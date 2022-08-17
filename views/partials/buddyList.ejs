@@ -1,13 +1,16 @@
 <div class="options-item">
     <div>
-        <h2>Friend List</h2>
-        <% if(users.length == 0) { %>
+        <div class="item">
+            <h2>Friend List</h2>
+            <button id="add-friend" class="button">ADD A FRIEND</button>
+        </div>
+        <% if(friends.length == 0) { %>
             <h2>Your list is empty</h2>
         <% } else { %>
-            <%    users.forEach(user => { %>
+            <%    friends.forEach(friend => { %>
                 <div class="user">
-                    <a href="#"><span><%= user %> </span></a>
-                    <a href="#"><span class="ico">🚮</span></a>   
+                    <span class="friend"><%= friend %></span>
+                    <span class="del-friend" class="ico">🚮</span> 
                 </div>
         <%     }) %>
 

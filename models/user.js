@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const Schema =  mongoose.Schema
+const Schema = mongoose.Schema
 
 
 const userSchema = new Schema({
@@ -29,6 +29,7 @@ const userSchema = new Schema({
     },
     nickName: {
         type: String,
+        default: this.user,
     },
     createdAt:{
         type: Date,
@@ -43,33 +44,15 @@ const userSchema = new Schema({
         isOnline: {
             type: Boolean,
             default: false,
+        },
+        friendsList: {
+            type: [mongoose.Schema.Types.ObjectId
+                ],
+            ref: 'User'
         }
 
     }
 })
-
-const HandleE11000 = (error, res, next)=>{
-
-    
-    if (error.name === `MongoServerError` && error.code === `11000`) {
-
-        next(new Error(error))
-    } else {
-        next()
-    }
-}
-const HandleValidation = (error, res, next) => {
-    if(error.name === `ValidationError`){
-
-       return next(new Error(error))
-    } else {
-        next()
-    }
-}
-
-// userSchema.pre(`save`, ()=> console.log('pre'))
-// userSchema.post(`save`, HandleE11000);
-// userSchema.post(`save`, HandleValidation);
 
 
 

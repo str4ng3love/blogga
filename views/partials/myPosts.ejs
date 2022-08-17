@@ -1,4 +1,4 @@
-<div class="options-item">
+<div id="my-posts" class="options-item">
     <div>
         <h2>My Posts</h2>
       
@@ -7,7 +7,13 @@
             <h2>You have not posted yet</h2>
         <% } else { %>
             <% posts.forEach(post=>{ %>
-                <div class="item"><span> <%= post %> </span></div>
+                <div class="item">
+                    <a href="#"><%= post %></a>
+                    <div class="icons">
+                        <span class="edit-post" title="Edit" >📝</span>
+                        <span class="del-post" title="Delete">🚮</span>
+                    </div>    
+                </div>
         <%      })  %>
         <%  } %>
         

@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%-include('../partials/header') %>
+    <% if(users){ %>
+        <% users.forEach(user=>{ %>
+        <div class="wrapper">
+            <div class="user">   
+                     <p><%= user.user %></p> 
+                    <p>
+                        Created: 
+                        <%= user.born.toString().slice(0, 25) %>
+                    </p>
+                    <p> 
+                        Last active: 
+                        <%= user.lastActive.toString().slice(0, 25) %>
+                    </p>
+                    <% if(user.displayBefriend){ %>
+                        <span class="befriend"  class="ico">🤝</span>
+                    <% } %>
+            </div>
+
+            <%    }) %>
+            <% } %>
+        </div>
+</body>
+<script src="static/script.js" type="module"></script>
+</html>

@@ -1,11 +1,12 @@
 require('dotenv').config()
+const userChecker = require('./controllers/userChecker')
 const errorHandler = require('./controllers/errorHandler')
 const User = require('./models/user')
+const Post = require('./models/post')
 const path = require('path')
 const session = require('express-session')
 const ConnectDB = require('./db/connect')
 const express = require('express')
-const isLogedIn = require('./middlewares/isLogedIn')
 const  MongoDBStore  = require('connect-mongodb-session')(session)
 const app = express()
 const PORT = process.env.PORT || 5001
@@ -14,7 +15,6 @@ const store = new MongoDBStore({
     uri: process.env.SESS_DB_URI,
     databaseName: `sessions`,
     collection: 'sessions'
-
 }, (error)=>{
     if(error){
         console.log(error)
@@ -42,78 +42,25 @@ app.use(session({
 app.set('view engine', 'ejs')
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(express.json())
-// app.use(isLogedIn)
+
 
 app.get('/', async (req, res, next)=>{
    
     res.render('pages/index', {
         title: 'Welcome to Blogga' ,
-       sessUser: req.session.user,
-        
- })
-})
-app.get('/profile', async (req, res)=>{
-    let userList = []
-    let postList = []
-    try {
-          let users = await User.find()
-        for (let i = 0; i < users.length; i++){
-        userList.push(users[i].user)
-    }
-    } catch (error) {
-        console.log(error.message)
-    }
-    res.render('pages/profile', {
-        title: `User profile`,
         sessUser: req.session.user,
-        users: userList,
+        
+    })
+})
+
+app.get('/posts', async (req, res) => {
+    let postList;
+    
+    res.render('pages/posts', {
+        title: 'Blogga | Posts',
+        sessUser: req.session.user,
         posts: postList,
     })
-    
-})
-app.get('/test', async (req, res)=>{
-req.sessionStore.all((err, sess)=>{
-    if(err){
-        console.log(err)
-    } else {
-        console.log(sess)
-    }
-  
-})
-
-
-res.redirect('/')
-
-})
-app.get('/posts', async (req, res) => {
-    res.redirect('/')
-})
-app.get('/users', async (req, res) =>{
-    let userList = []
-    
-    try {
-          let users = await User.find()
-        for (let i = 0; i < users.length; i++){
-            let userData = {
-                user: users[i].user,
-                born: users[i].createdAt,
-                lastActive: users[i].meta.lastVisited,
-                status: users[i].meta.isOnline,
-            }
-        userList.push(userData)
-    }
-    } catch (error) {
-        console.log(error.message)
-    }
-     
-   
-    res.render('pages/users', {
-        title: 'Blogga | Users' ,
-        sessUser: req.session.user,
-        users: userList,
-    })
-    
-
 })
 app.post('/login', async (req, res)=>{
  
@@ -127,7 +74,7 @@ app.post('/login', async (req, res)=>{
                 }
             )
             if(user && user.password === password){
-               
+               console.log(user._id)
                 req.session.userId = user._id
                 req.session.user = user.user
                 await req.sessionStore.all((err, sess)=>{
@@ -180,23 +127,209 @@ app.post('/register', async (req, res, next)=>{
             res.status(400).json({messages:`Please retype your password`, fields: [`confirm`]})
         }
 })
+app.get('/users', async (req, res) =>{
+    let userList = []
+    
+    try {
+          let users = await User.find()
+        for (let i = 0; i < users.length; i++){
+            let userData = {
+                user: users[i].user,
+                born: users[i].createdAt,
+                lastActive: users[i].meta.lastVisited,
+                status: users[i].meta.isOnline,
+            }
+        userList.push(userData)
+    }
+    } catch (error) {
+        console.log(error.message)
+    }
+     
+   
+    res.render('pages/users', {
+        title: 'Blogga | Users' ,
+        sessUser: req.session.user,
+        users: userList,
+    })
+    
+
+})
+
+
+app.get('/user:name', async (req, res) => {
+
+    let userList = []
+    let currentUser
+    try {
+        const users = await User.find({user: req.params.name})
+        if(req.session.user){
+            currentUser = await User.findOne({user: req.session.user})
+            console.log(currentUser.meta.friendsList)
+         }
+         
+        for (let i = 0; i < users.length; i++){
+            
+            let userData = {
+                user: users[i].user,
+                born: users[i].createdAt,
+                lastActive: users[i].meta.lastVisited,
+                status: users[i].meta.isOnline,
+                displayBefriend: false
+            }
+            if(req.session.user){
+               userData.displayBefriend = true 
+               if(currentUser.meta.friendsList.includes(users[i]._id) || req.session.user == users[i].user){
+                userData.displayBefriend= false
+               }
+               
+            }
+           
+            
+
+            userList.push(userData)
+            
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500)
+    }
+   
+    res.render('pages/user', {
+        title: 'Blogga | User Profile' ,
+        sessUser: req.session.user,
+        users: userList,
+    })
+})
+
+app.get('*', userChecker)
+app.delete('/remove-friend', async (req, res) => {
+  
+
+    let friend
+    try {
+        friend = await User.findOne({user: req.body.user})
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({messages: error.message})
+    }
+
+    try {
+        const resp = await User.findOneAndUpdate({user: req.session.user}, { $pull: {'meta.friendsList': friend._id}})
+        res.json({messages: 'Friend removed.'})
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({messages: error.message})
+    }
+})
+app.get('/profile', async (req, res)=>{
+    let usersFriends = [] 
+    let postList = []
+
+    try {
+        let posts = await Post.find().populate('meta.author')
+        
+        for( let i = 0; i < posts.length; i++){
+          
+            if(posts[i].meta.author._id.toString() == req.session.userId){
+               postList.push(posts[i].title)
+            }
+        } 
+    } catch (error) {
+        console.log(error.message)
+    }
+    try {
+        let user = await User.findOne({user: req.session.user}).populate('meta.friendsList')
+        user.meta.friendsList.forEach(friend => {
+        usersFriends.push(friend.user)
+        })
+  
+    } catch (error) {
+        console.log(error.message)
+    }
+ 
+    res.render('pages/profile', {
+        title: `My profile`,
+        sessUser: req.session.user,
+        friends: usersFriends,
+        posts: postList,
+    
+    })
+    
+})
+app.post('/addfriend', async (req, res)=> {
+try {
+    const resp = await User.findOne({user: req.body.user})
+    if(resp === null){
+        res.status(404).json({messages: 'User not found.'})
+    }else if(resp.user === req.session.user){
+        res.status(401).json({messages: `Can't add yourself.`})
+    } else if(resp.user){
+        const ans = await User.findOneAndUpdate({user: req.session.user}, {  $addToSet : {'meta.friendsList': resp._id}} )
+        res.json({messages: 'Friend added.'})
+    } else {
+        res.status(500).json({messages: 'Something went wrong, try again later.'})
+    }
+} catch (error) {
+    console.log(error.message)
+    res.status(500).json({messages: error.message})
+}
+   
+
+
+
+})
+app.delete('/post', async (req, res) => {
+    try {
+        let resp = await Post.deleteOne({title: req.body.title})
+        res.json({messages: resp})
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+app.post('/createpost', async (req, res, next) => {
+    console.log('create post')
+    const post = new Post({
+        title: req.body.title,
+        paragraph1: req.body.paragraph1,
+        paragraph2: req.body.paragraph2,
+        paragraph3: req.body.paragraph3,
+        img1: req.body.img1,
+        img2: req.body.img2,
+        meta:{
+            author: req.session.userId.toString().slice(0)
+        }
+    })
+
+    if(req.session.user){
+        try {
+            await post.save()
+            res.status(201).json({messages: [`Posted!`]})
+          } catch (error) {
+           next(error)
+          }
+    } else {
+        res.status(400).json({messages:`someting went wong`})
+    }
+   
+})
+
 app.get('/logout', async (req, res)=>{
     try {
         let resp = await User.updateOne({user: req.session.user}, {meta:{lastVisited: Date.now()}})
-        console.log(`Mathed: ${resp.matchedCount}, modified: ${resp.modifiedCount}`)
+        console.log(`Matched: ${resp.matchedCount}, modified: ${resp.modifiedCount}`)
     } catch (error) {
         console.log(error)
     }
 
 
-await req.session.destroy((err)=>{
-    if(err){
-        console.log(err)
-        res.status(500)
-    } 
-    res.redirect('/')
-    
-    })
+    await req.session.destroy((err)=>{
+        if(err){
+            console.log(err)
+            res.status(500)
+        } 
+        res.redirect('/')
+        
+        })
 })
  
 

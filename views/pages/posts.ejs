@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <div class="wrapper">
+        <% if(sessUser){ %>
+            <div class="centered-container">
+                <button id='add-btn' class="button">ADD A POST</button>
+            </div>
+        <%}%>
+    </div>
+</body>
+<script src="static/script.js" type="module"></script>
+</html>
