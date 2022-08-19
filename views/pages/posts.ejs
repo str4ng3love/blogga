@@ -9,7 +9,22 @@
             <div class="centered-container">
                 <button id='add-btn' class="button">ADD A POST</button>
             </div>
-        <%}%>
+            <div class="posts-container">
+        <% } %>
+    <% if(posts.length == 0) { %>
+        <h2>Nothing posted yet.</h2>
+    <% } else { %>
+        <% posts.forEach(post => { %>
+            <div class="post">
+             <a href="/post<%= post.title%>"><%= post.title %></a>
+             <span><%= post.createdAt.toString().slice(0,24) %></span>
+            </div>
+                        
+              
+       
+    <%   }) %>
+    <% } %>
+    </div>
     </div>
 </body>
 <script src="static/script.js" type="module"></script>

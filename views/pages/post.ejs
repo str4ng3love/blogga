@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%-include('../partials/header') %>
+        <div class="wrapper">
+            
+            <div class="post-box">   
+
+                <h3 class="title"><%= post.title %></h3>
+                <p class="para">Posted on: <%= post.meta.postedOn.toString().slice(0, 24) %></p>
+                <div class="container-post0">
+                    <p class="para"><%= post.paragraph1 %></p>
+                    <% if(post.img1){ %>
+                        <img class="im" src="<%= post.img1%>" alt=""> 
+                    <%  } %>
+                    <% if(post.paragraph2){ %>
+                        <p class="para"><%= post.paragraph2 %></p> 
+                    <%  } %>
+                    <% if(post.img2){ %>
+                        <img class="im" src="<%= post.img2%>" alt=""> 
+                    <%  } %>
+                    <% if(post.paragraph3){ %>
+                        <p class="para"><%= paragraph3 %></p> 
+                    <%  } %>
+                    </div>
+                    <div class="author-box">
+                        <span>Posted by </span>
+                        <a href="/user+<%= post.meta.author %>" id="author"><%= post.meta.author %></a>
+                </div>
+                    
+            </div>
+
+        </div>
+</body>
+<script src="static/script.js" type="module"></script>
+</html>

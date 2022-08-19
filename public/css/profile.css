@@ -17,6 +17,19 @@
     border: none;
   
 }
+.mini {
+
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   background-color: var(--color2);
+   width: 100%;
+   padding: 0.5rem;
+} 
+.mini:hover{
+    background-color: var(--colorHover);
+
+}
 .options-item > form, .options-item > div{
     box-shadow: var(--boxShadow);
 }
@@ -30,7 +43,8 @@
 }
 
 .icons span:hover {
-    background-color: var(--color1);
+    background-color: var(--colorHover);
+    cursor: pointer;
 }
 .add-friend {
     display: flex;
@@ -47,4 +61,7 @@
     margin: 0.3rem;
     font-weight: bold;
     font-size: 1.2rem;
+}
+.del-friend:hover {
+    cursor: pointer;
 }

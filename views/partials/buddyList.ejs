@@ -8,8 +8,8 @@
             <h2>Your list is empty</h2>
         <% } else { %>
             <%    friends.forEach(friend => { %>
-                <div class="user">
-                    <span class="friend"><%= friend %></span>
+                <div class="mini">
+                    <a href="/user<%= friend %>" class="friend"><%= friend %></a>
                     <span class="del-friend" class="ico">🚮</span> 
                 </div>
         <%     }) %>

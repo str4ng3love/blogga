@@ -52,20 +52,10 @@ app.get('/', async (req, res, next)=>{
         
     })
 })
-
-app.get('/posts', async (req, res) => {
-    let postList;
-    
-    res.render('pages/posts', {
-        title: 'Blogga | Posts',
-        sessUser: req.session.user,
-        posts: postList,
-    })
-})
 app.post('/login', async (req, res)=>{
- 
+    
     const { username, password } = req.body
-
+    
     if(username && password) {
         try {
             const user = await User.findOne(
@@ -74,7 +64,7 @@ app.post('/login', async (req, res)=>{
                 }
             )
             if(user && user.password === password){
-               console.log(user._id)
+            
                 req.session.userId = user._id
                 req.session.user = user.user
                 await req.sessionStore.all((err, sess)=>{
@@ -132,39 +122,8 @@ app.get('/users', async (req, res) =>{
     
     try {
           let users = await User.find()
-        for (let i = 0; i < users.length; i++){
-            let userData = {
-                user: users[i].user,
-                born: users[i].createdAt,
-                lastActive: users[i].meta.lastVisited,
-                status: users[i].meta.isOnline,
-            }
-        userList.push(userData)
-    }
-    } catch (error) {
-        console.log(error.message)
-    }
-     
-   
-    res.render('pages/users', {
-        title: 'Blogga | Users' ,
-        sessUser: req.session.user,
-        users: userList,
-    })
-    
-
-})
-
-
-app.get('/user:name', async (req, res) => {
-
-    let userList = []
-    let currentUser
-    try {
-        const users = await User.find({user: req.params.name})
-        if(req.session.user){
+          if(req.session.user){
             currentUser = await User.findOne({user: req.session.user})
-            console.log(currentUser.meta.friendsList)
          }
          
         for (let i = 0; i < users.length; i++){
@@ -183,9 +142,61 @@ app.get('/user:name', async (req, res) => {
                }
                
             }
-           
-            
+            userList.push(userData)
+        }
+    } catch (error) {
+        console.log(error.message)
+    }
+     
+   
+    res.render('pages/users', {
+        title: 'Blogga | Users' ,
+        sessUser: req.session.user,
+        users: userList,
+    })
+    
 
+})
+app.get('/id:id', async (req, res) => {
+ 
+    try {
+        let user = await User.findById(req.params.id)
+        let name = await user.user
+        res.json({userName: name})
+    } catch (error) {
+       console.log(error.message) 
+       res.status(500).send('Something went wrong.')
+    }
+})
+app.get('/user:name', async (req, res) => {
+    let postList = []
+    let userList = []
+    let currentUser
+    let userData
+    try {
+        const users = await User.find({user: req.params.name})
+        if(req.session.user){
+            currentUser = await User.findOne({user: req.session.user})
+            
+         }
+         
+        for (let i = 0; i < users.length; i++){
+            
+            userData = {
+                id: users[i]._id,
+                user: users[i].user,
+                born: users[i].createdAt,
+                lastActive: users[i].meta.lastVisited,
+                status: users[i].meta.isOnline,
+                displayBefriend: false
+            }
+            if(req.session.user){
+               userData.displayBefriend = true 
+               if(currentUser.meta.friendsList.includes(users[i]._id) || req.session.user == users[i].user){
+                userData.displayBefriend= false
+               }
+               
+            }
             userList.push(userData)
             
         }
@@ -193,15 +204,99 @@ app.get('/user:name', async (req, res) => {
         console.log(error)
         res.status(500)
     }
-   
+    try {
+        let posts = await Post.find().populate('meta.author')
+         
+        for( let i = 0; i < posts.length; i++){
+         
+            if(posts[i].meta.author._id.toString() == userData.id){
+               postList.push(posts[i].title)
+            }
+        } 
+       
+        
+    } catch (error) {
+        console.log(error.message)
+    }
     res.render('pages/user', {
         title: 'Blogga | User Profile' ,
         sessUser: req.session.user,
         users: userList,
+        posts: postList,
     })
 })
+app.get('/posts', async (req, res) => {
+   let postList = []
+    try {
+       let posts = await Post.find()
+       for (let i = 0; i < posts.length; i++){
+       let postData = {
+            title: posts[i].title,
+            createdAt: posts[i].meta.postedOn
+       }
+       postList.push(postData)
+    }
+    } catch (error) {
+        console.log(error)
+    }
 
+    res.render('pages/posts', {
+        title: 'Blogga | Posts',
+        sessUser: req.session.user,
+        posts: postList,
+    })
+})
+app.post('/getpost', async (req, res) => {
+    let post
+    try {
+        post = await Post.findOne({title: req.body.title})
+       
+       res.json({data: post})
+    } catch (error) {
+       console.log(error.message) 
+    }
+})
+app.post('/editpost', async (req, res, next) => {
+    
+    
+    try {
+        let resp = await Post.findOneAndUpdate({title: req.body.oldTitle}, { $set: {
+            title: req.body.title,
+            paragraph1: req.body.paragraph1,
+            paragraph2: req.body.paragraph2,
+            paragraph3: req.body.paragraph3,
+            img1: req.body.img1,
+            img2: req.body.img2,
+            
+        }}, { runValidators: true})
+        if(resp){
+
+            res.status(201).json({messages: [`Updated!`]})
+        } else {
+            res.status(404).json({messages: ['Post not found.']})
+        }
+    } catch (error) {
+        console.log(error.message)
+        next(error)
+    }
+})
+app.get('/post:id', async (req, res) => {
+    let postData
+   try {
+    postData = await Post.findOne({title: req.params.id})
+    
+   } catch (error) {
+        console.log(error.message)
+   } 
+   res.render('pages/post', {
+    sessUser: req.session.user,
+    title: `Blogga | ${postData.title}`,
+    post: postData,
+    
+   })
+})
 app.get('*', userChecker)
+
 app.delete('/remove-friend', async (req, res) => {
   
 
@@ -287,7 +382,7 @@ app.delete('/post', async (req, res) => {
     }
 })
 app.post('/createpost', async (req, res, next) => {
-    console.log('create post')
+    
     const post = new Post({
         title: req.body.title,
         paragraph1: req.body.paragraph1,
@@ -315,8 +410,8 @@ app.post('/createpost', async (req, res, next) => {
 
 app.get('/logout', async (req, res)=>{
     try {
-        let resp = await User.updateOne({user: req.session.user}, {meta:{lastVisited: Date.now()}})
-        console.log(`Matched: ${resp.matchedCount}, modified: ${resp.modifiedCount}`)
+        let resp = await User.updateOne({user: req.session.user}, { 'meta.lastVisited': Date.now()})
+        
     } catch (error) {
         console.log(error)
     }
@@ -331,7 +426,23 @@ app.get('/logout', async (req, res)=>{
         
         })
 })
- 
+app.post('/changepass', async (req, res, next) => {
+  let resp
+    try {
+        resp = await User.findOneAndUpdate({$and: [{user: req.session.user},{password: req.body.password}]}, {password: req.body.newPassword},{ runValidators: true})
+       
+        if(resp){
+            res.json({messages: `Success!`})
+           
+        } else if(!resp){
+            res.status(404).json({messages: `Please enter your current password.`})
+        }
+    } catch (error) {
+        console.log(error.errors)
+        next(error)
+    }
+
+ })
 
 app.use(errorHandler)
 

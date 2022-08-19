@@ -21,6 +21,17 @@
                         <span class="befriend"  class="ico">🤝</span>
                     <% } %>
             </div>
+            <div class="posts-container">
+                <% if(posts.length == 0) { %>
+                <h2>Nothing posted yet.</h2>
+                <% } else { %>
+                <% posts.forEach(post => { %>
+                    <div class="post">
+                        <a href="/post<%= post %>"><%= post %></a>
+                    </div>
+                    <% }) %>
+             <%   } %>
+            </div>
 
             <%    }) %>
             <% } %>

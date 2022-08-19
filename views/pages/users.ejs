@@ -19,6 +19,9 @@
                             <%= user.user %> 
                         
                     </a>
+                    <% if(user.displayBefriend){ %>
+                        <span class="befriend" title="Add Friend" class="ico">🤝</span>
+                    <% } %>
                 </div>
         <%    }) %>
         <% } %>
