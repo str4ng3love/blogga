@@ -27,10 +27,19 @@
     color: black;
     list-style: none;
 }
+.sub-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5rem;
+    background-color: var(--color3);
+}
 h1 {
     font-size: 2rem;
     font-weight: bold;
+    padding: 2rem;
 }
+
 .button {
     background-color: #f3f3f3;
     cursor: pointer;
@@ -69,6 +78,42 @@ h1 {
      background-color: var(--colorHover);
      
  }
+ .panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+ }
+ .panel p {
+    font-size: 1.5rem;
+    text-indent: 2rem;;
+    padding: 2rem;
+    font-weight: bold;
+    background-color: var(--color2);
+ }
+ .panel a {
+    margin-top: 3rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: var(--color2);
+ }
+ .panel a:hover{
+    background-color: var(--colorHover);
+    
+ }
+ .panel img{
+    margin-top: 3rem;
+    max-height: 500px;
+    
+ }
+
+ .index-div img {
+    margin-top: 4rem;
+height:60vh;
+
+ }
 /* width */
 ::-webkit-scrollbar {
     width: 0.5rem;
@@ -89,6 +134,7 @@ h1 {
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color3);
   }
+
   @media screen and (max-width: 780px){
     .wrapper {
         width: 100%

@@ -256,6 +256,32 @@ app.post('/getpost', async (req, res) => {
        console.log(error.message) 
     }
 })
+
+app.get('/post:id', async (req, res) => {
+    let postData
+    console.log(`hit`)
+   try {
+    postData = await Post.findOne({title: req.params.id})
+    
+   } catch (error) {
+        console.log(error.message)
+   } 
+   res.render('pages/post', {
+    sessUser: req.session.user,
+    title: `Blogga | ${postData.title}`,
+    post: postData,
+    
+   })
+})
+app.get('/about', (req, res) => {
+    res.render('pages/about' , {
+        title: `Blogga | About`,
+        sessUser: req.session.user,
+    })
+})
+
+
+app.get('*', userChecker)
 app.post('/editpost', async (req, res, next) => {
     
     
@@ -280,23 +306,6 @@ app.post('/editpost', async (req, res, next) => {
         next(error)
     }
 })
-app.get('/post:id', async (req, res) => {
-    let postData
-   try {
-    postData = await Post.findOne({title: req.params.id})
-    
-   } catch (error) {
-        console.log(error.message)
-   } 
-   res.render('pages/post', {
-    sessUser: req.session.user,
-    title: `Blogga | ${postData.title}`,
-    post: postData,
-    
-   })
-})
-app.get('*', userChecker)
-
 app.delete('/remove-friend', async (req, res) => {
   
 

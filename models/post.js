@@ -13,17 +13,17 @@ const postSchema = new Schema({
         type: String,
         required: [true, `Post must contain at least 1 paragraph.`],
         minlength: [10, `Paragraph is too short.`],
-        maxlength: [1000, `Must not exceed 1000 characters.`]
+        maxlength: [2500, `Must not exceed 2500 characters.`]
     },
     paragraph2: {
         type: String,
         required: false,
-        maxlength: [1000, `Must not exceed 1000 characters.`]
+        maxlength: [2500, `Must not exceed 2500 characters.`]
     },
     paragraph3: {
         type: String,
         required: false,
-        maxlength: [1000, `Must not exceed 1000 characters.`]
+        maxlength: [2500, `Must not exceed 2500 characters.`]
     },
     img1: {
         type: String,
