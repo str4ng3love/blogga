@@ -11,8 +11,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--color3);
+  background-color: var(--color2);
   width: 100%;
+  margin-bottom: 0.3rem;
 }
 .user a {
   padding: 1rem;
@@ -34,6 +35,7 @@
   color: var(--colorText);
   background-color: var(--colorHover);
   cursor: pointer;
+  box-shadow: 0rem 0rem 0.5rem var(--colorHover);
 }
 .befriend {
     border-radius: 5px;

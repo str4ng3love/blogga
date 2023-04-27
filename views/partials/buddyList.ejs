@@ -8,7 +8,7 @@
     <% } else { %> <% friends.forEach(friend => { %>
     <div class="mini">
       <a href="/user<%= friend %>" class="friend"><%= friend %></a>
-      <span class="del-friend" class="ico">🚮</span>
+      <span title="Remove" class="del-friend" class="ico">🚮</span>
     </div>
     <% }) %> <% } %> %>
     <button id="add-friend" class="button">ADD A FRIEND</button>

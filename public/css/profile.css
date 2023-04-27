@@ -15,6 +15,10 @@ form {
   box-shadow: none;
   border: none;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .mini {
   display: flex;
@@ -76,4 +80,7 @@ text-align: center;
 }
 .del-friend:hover {
   cursor: pointer;
+}
+#add-friend, #add-btn {
+  margin-top: 0.5rem;
 }

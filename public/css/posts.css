@@ -1,82 +1,80 @@
 .container-post0 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--color2);
-    
-    width: 100%;
-
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 .post-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .post {
-    background-color: var(--color2);
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 0 1rem var(--colorMain);
-}
-.title {
-    font-size: 2.5rem;
-    padding: 1rem;
-    margin-top: 2rem;
-    font-weight: bold;
-   
-}
-.title::first-letter {
-    text-transform: uppercase;
-}
-.para {
-    text-indent: 2rem;
-    padding: 1rem;
-
-
-    margin: 1rem 0;
-}
-.para::first-letter {
-    text-transform: uppercase;
-}
-.im {
-    max-width: 100%;
-    height: auto;
-
+  background-color: var(--color3);
+  margin: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-shadow: 0 0 1rem var(--colorMain);
 }
 .posts-container {
-    display: grid;
+  display: grid;
 }
-.post {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-}
+
 .post a:hover {
-    background-color: var(--colorHover);
-    color:  var(--colorText);
+  background-color: var(--colorHover);
+  color: var(--colorText);
+  box-shadow: 0rem 0rem 0.5rem var(--colorHover);
 }
-.post a , .post span{
-    width: 100%;
-    height: 100%;
-    padding: 1rem;
-    font-weight: bold;
-    font-size: 1.2rem;
+.post a,
+.post span {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: all 150ms ease;
 }
+.title {
+  font-size: 2.5rem;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-weight: bold;
+}
+.title::first-letter {
+  text-transform: uppercase;
+}
+.para {
+  text-indent: 2rem;
+  padding: 1rem;
+
+  margin: 1rem 0;
+}
+.para::first-letter {
+  text-transform: uppercase;
+}
+.im {
+  max-width: 100%;
+  height: auto;
+}
+
 .author-box {
-    padding: 1rem;
-    background-color: var(--color2);
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  padding: 1rem;
+  background-color: var(--color2);
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .author-box > * {
-    padding:1rem;
+  padding: 1rem;
 }
 .author-box a:hover {
-    background-color: var(--colorHover);
+  background-color: var(--colorHover);
+}
+@media screen and (max-width: 1080px) {
+        .post {
+            flex-direction: column;
+            margin: 0.3rem 2rem;
+        }
 }

@@ -222,7 +222,7 @@ const handleEditPost = async (e, address)=>{
         img2: data[4],
         paragraph3: data[5],
     }
- console.log(oldTitle)
+
     try {
        const resp = await fetch('/editpost',{
             method: "POST",
@@ -254,7 +254,7 @@ const div = document.createElement('div')
 div.setAttribute('class', 'err-container')
 err.innerHTML = postMsg.messages
 err.setAttribute('class', 'post-err')
-console.log(postMsg.messages)
+
 if(postMsg.messages.length == 1 && postMsg.messages[0].includes('Posted') || postMsg.messages[0].includes('Updated')){
     err.style.backgroundColor = 'green';
     setTimeout(() => {
