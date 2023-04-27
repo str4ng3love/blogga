@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <%- include('../partials/head') %>
@@ -20,7 +21,8 @@
           <h2>Nothing posted yet.</h2>
           <% } else { %> <% posts.forEach(post => { %>
           <div class="post">
-            <a href="/post<%= post %>"><%= post %></a>
+            <a href="/post<%= post %>"><%= post.title %></a>
+            <span>Posted on: <%= post.meta.postedOn.toString().slice(0, 34) %></span>
           </div>
           <% }) %> <% } %>
         </div>
@@ -28,6 +30,7 @@
         <% }) %> <% } %>
       </div>
     </div>
+    <%- include('../partials/footer'); -%>
   </body>
   <script src="static/script.js" type="module"></script>
 </html>

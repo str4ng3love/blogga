@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <%- include('../partials/head') %>
@@ -27,12 +28,12 @@
                     </div>
                     <div class="author-box">
                         <span>Posted by </span>
-                        <a href="/user+<%= post.meta.author %>" id="author"><%= post.meta.author %></a>
+                        <a href="/user+<%= post.meta.author %>" id="author" class="button-secondary"><%= post.meta.author %></a>
                 </div>
                     
             </div>
-
         </div>
+        <%- include('../partials/footer'); -%>
 </body>
 <script src="static/script.js" type="module"></script>
 </html>

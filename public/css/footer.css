@@ -1,0 +1,12 @@
+.footer {
+    min-height: var(--footerH);
+    display: flex;
+    justify-content: center;
+    background-color: var(--colorMain);
+    width: 100%;
+}
+.footer div {
+    padding: 0.3rem;
+    display: flex;
+    align-items: center;
+}

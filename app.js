@@ -49,9 +49,11 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 app.get("/", async (req, res, next) => {
+  const newestPosts = await Post.find().sort({'meta.postedOn': 'descending'}).limit(5);
   res.render("pages/index", {
     title: "Welcome to Blogga",
     sessUser: req.session.user,
+    posts: newestPosts,
   });
 });
 app.post("/login", async (req, res) => {
@@ -89,12 +91,10 @@ app.post("/login", async (req, res) => {
       console.log(error);
     }
   } else {
-    res
-      .status(400)
-      .json({
-        messages: [`Please provide valid credentials`],
-        fields: ["username", "password"],
-      });
+    res.status(400).json({
+      messages: [`Please provide valid credentials`],
+      fields: ["username", "password"],
+    });
   }
 });
 app.post("/register", async (req, res, next) => {
@@ -201,11 +201,7 @@ app.get("/user:name", async (req, res) => {
   try {
     let posts = await Post.find().populate("meta.author");
 
-    for (let i = 0; i < posts.length; i++) {
-      if (posts[i].meta.author._id.toString() == userData.id) {
-        postList.push(posts[i].title);
-      }
-    }
+   postList = posts
   } catch (error) {
     console.log(error.message);
   }

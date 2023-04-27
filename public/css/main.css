@@ -4,9 +4,11 @@
 @import url(profile.css);
 @import url(posts.css);
 @import url(postForm.css);
+@import url(footer.css);
 @import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
 :root {
   --colorMain: rgb(20, 20, 20);
+  --colorMainAlpha50: rgba(20, 20, 20, 0.5);
   --colorHover: #279af1;
   --colorBackground: #403f4c;
   --colorText: rgb(225, 225, 225);
@@ -15,7 +17,7 @@
   --color3: #7898b5;
   --colorErr: rgba(186, 51, 51, 0.693);
   --headerH: 5.5rem;
-  --footerH: 0rem;
+  --footerH: 5rem;
   --wrapperH: calc(100vh - calc(var(--footerH) + var(--headerH)));
   --boxShadow: 0 0 1rem var(--colorMain);
 }
@@ -70,7 +72,7 @@ h1 {
   border: 0px;
   white-space: nowrap;
   height: 3rem;
-  min-width: 10ch ;
+  min-width: 10ch;
   background-color: var(--colorText);
   cursor: pointer;
   padding: 0.8rem;
@@ -85,7 +87,6 @@ h1 {
 .button:hover {
   box-shadow: 0rem 0rem 0.5rem var(--colorHover);
   transform: translateY(-2.5px) scale(1.05) rotateX(5deg);
-
   background-color: var(--colorHover);
   color: var(--colorText);
 }
@@ -97,7 +98,7 @@ h1 {
   border: 0px;
   white-space: nowrap;
   height: 3rem;
-  min-width: 10ch ;
+  min-width: 10ch;
   background-color: var(--color3);
   cursor: pointer;
   padding: 0.8rem;
@@ -126,7 +127,7 @@ h1 {
 .wrapper {
   width: 80%;
   margin: 0 auto;
-  min-height: calc(100dvh - var(--headerH));
+  min-height: var(--wrapperH);
 }
 .item {
   display: flex;
@@ -138,7 +139,15 @@ h1 {
 .item > *:hover {
   background-color: var(--colorHover);
 }
+.bg {
+  background-image: url("../img/people-gabace98e1_1920.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .panel {
+  min-height: var(--wrapperH);
+  background-color: var(--colorMainAlpha50);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -146,23 +155,19 @@ h1 {
 }
 .panel p {
   font-size: 1.5rem;
-  text-indent: 2rem;
+  text-align: center;
   padding: 2rem;
   font-weight: bold;
   background-color: var(--color2);
+  border-radius: 5px;
+  box-shadow: var(--boxShadow);
 }
 .panel a {
   margin-top: 3rem;
-  padding: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  background-color: var(--color2);
-}
-.panel a:hover {
-  background-color: var(--colorHover);
 }
 .panel img {
-  margin-top: 3rem;
+  margin: 3rem 0rem;
+  height: auto;
   max-height: 500px;
 }
 
@@ -201,6 +206,4 @@ h1 {
   .post-fields {
     flex-direction: column;
   }
-
 }
-

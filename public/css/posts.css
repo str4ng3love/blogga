@@ -31,9 +31,8 @@
 .post span {
   width: 100%;
   height: 100%;
-  padding: 1rem;
+  padding: 0.4rem;
   font-weight: bold;
-  font-size: 1.2rem;
   transition: all 150ms ease;
 }
 .title {
@@ -61,16 +60,14 @@
 
 .author-box {
   padding: 1rem;
-  background-color: var(--color2);
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .author-box > * {
   padding: 1rem;
-}
-.author-box a:hover {
-  background-color: var(--colorHover);
+  text-align: center;
 }
 @media screen and (max-width: 1080px) {
         .post {

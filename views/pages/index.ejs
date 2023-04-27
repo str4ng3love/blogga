@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <%- include('../partials/head'); -%>
@@ -19,9 +20,10 @@
         <h3 id="start_post_btn" class="hero-heading_sm button">Start blogging now !</h3>
         <% } %>
     </div>
-    <div>newest posts</div>
-
+    <%- include('../partials/newestPosts'); %>
   </div>
+  <%- include('../partials/footer'); -%>
+  
 </body>
 <script  src="/static/script.js" type="module" defer></script>
 
