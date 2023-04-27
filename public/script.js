@@ -3,6 +3,9 @@ import * as pH from './modules/postHandler.mjs'
 import * as proH from './modules/profileHandler.mjs'
 
 const logBtn = document.getElementById('log-btn')
+const regBtn = document.getElementById('register-btn')
+const startLogBtn = document.getElementById('start_login_btn')
+const startPostBtn = document.getElementById('start_post_btn')
 const addBtn = document.getElementById('add-btn')
 const changePassBtn = document.getElementById('change-password')
 const author = document.getElementById('author')
@@ -27,6 +30,9 @@ const GetAuthor = async () => {
 if(logBtn){
     logBtn.addEventListener('click', fH.CreateLogForm)
 } 
+regBtn?.addEventListener('click', fH.CreateRegForm)
+startLogBtn?.addEventListener('click', fH.CreateLogForm)
+startPostBtn?.addEventListener('click', pH.CreatePost)
 if(addBtn){
     addBtn.addEventListener('click', pH.CreatePost)
     

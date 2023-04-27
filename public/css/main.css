@@ -3,150 +3,204 @@
 @import url(users.css);
 @import url(profile.css);
 @import url(posts.css);
-@import  url(postForm.css);
+@import url(postForm.css);
+@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
 :root {
-    --colorMain: black;
-    --colorHover: #CAC7F5;
-    --colorBackground:#898989;
-    --color1: #d0d0d0;
-    --color2: #b8b8b8;
-    --color3: #7a7a5c;
-    --colorErr:rgba(186, 51, 51, 0.693);
-    --headerH: 5.5rem;
-    --footerH: 0rem;
-    --wrapperH: calc(100vh - calc(var(--footerH) + var(--headerH)));
-    --boxShadow: 0 0 1rem black;
+  --colorMain: rgb(20, 20, 20);
+  --colorHover: #279af1;
+  --colorBackground: #403f4c;
+  --colorText: rgb(225, 225, 225);
+  --color1: #44425c;
+  --color2: #8a88a7;
+  --color3: #7898b5;
+  --colorErr: rgba(186, 51, 51, 0.693);
+  --headerH: 5.5rem;
+  --footerH: 0rem;
+  --wrapperH: calc(100vh - calc(var(--footerH) + var(--headerH)));
+  --boxShadow: 0 0 1rem var(--colorMain);
 }
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    text-decoration: none;
-    color: black;
-    list-style: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--colorText);
+  list-style: none;
 }
-.sub-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5rem;
-    background-color: var(--color3);
+html,
+body {
+  min-width: 500px;
+  background-color: var(--colorBackground);
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Rowdies", cursive;
+}
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8rem;
+}
+.heading_middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+}
+.hero-heading {
+  font-size: 4rem;
+}
+.hero-heading_sm {
+  font-size: 2rem;
 }
 h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 2rem;
 }
 
 .button {
-    background-color: #f3f3f3;
-    cursor: pointer;
-    padding: 1rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-
+  user-select: none;
+  border: 0px;
+  white-space: nowrap;
+  height: 3rem;
+  min-width: 10ch ;
+  background-color: var(--colorText);
+  cursor: pointer;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0rem 0.2rem;
+  color: var(--colorHover);
+  border-radius: 5px;
+  transition: all 150ms ease;
+  transform: translateY(0px);
 }
 .button:hover {
-    background-color: rgb(207, 207, 207);
+  box-shadow: 0rem 0rem 0.5rem var(--colorHover);
+  transform: translateY(-2.5px) scale(1.05) rotateX(5deg);
 
+  background-color: var(--colorHover);
+  color: var(--colorText);
+}
+.button-secondary:active {
+  background-color: rgb(92, 90, 143);
+}
+.button-secondary {
+  user-select: none;
+  border: 0px;
+  white-space: nowrap;
+  height: 3rem;
+  min-width: 10ch ;
+  background-color: var(--color3);
+  cursor: pointer;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0rem 0.2rem;
+  color: var(--colorText);
+  border-radius: 5px;
+  transition: all 150ms ease;
+  transform: translateY(0px);
+}
+.button-secondary:hover {
+  transform: translateY(-5px) scale(1.05) rotateX(5deg);
+  box-shadow: 0rem 0rem 0.5rem var(--colorHover);
+  background-color: var(--colorHover);
+  color: var(--colorText);
 }
 .button:active {
-    background-color: rgb(92, 90, 143);
-
+  background-color: rgb(92, 90, 143);
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4rem;
 }
 .wrapper {
-    width: 75%;
-    overflow-y: scroll;
-    margin: 0 auto;
-    height: var(--wrapperH);
-    background-color: var(--colorBackground);
+  width: 80%;
+  margin: 0 auto;
+  min-height: calc(100dvh - var(--headerH));
 }
 .item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
- 
- }
- .item > * {
-     padding: 0.25rem;
-  
- }
- .item > *:hover {
-     background-color: var(--colorHover);
-     
- }
- .panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.item > *:hover {
+  background-color: var(--colorHover);
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.panel p {
+  font-size: 1.5rem;
+  text-indent: 2rem;
+  padding: 2rem;
+  font-weight: bold;
+  background-color: var(--color2);
+}
+.panel a {
+  margin-top: 3rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: var(--color2);
+}
+.panel a:hover {
+  background-color: var(--colorHover);
+}
+.panel img {
+  margin-top: 3rem;
+  max-height: 500px;
+}
 
- }
- .panel p {
-    font-size: 1.5rem;
-    text-indent: 2rem;;
-    padding: 2rem;
-    font-weight: bold;
-    background-color: var(--color2);
- }
- .panel a {
-    margin-top: 3rem;
-    padding: 1rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    background-color: var(--color2);
- }
- .panel a:hover{
-    background-color: var(--colorHover);
-    
- }
- .panel img{
-    margin-top: 3rem;
-    max-height: 500px;
-    
- }
-
- .index-div img {
-    margin-top: 4rem;
-height:60vh;
-
- }
 /* width */
 ::-webkit-scrollbar {
-    width: 0.5rem;
+  color: var(--colorMain);
+  width: 0.75rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--colorMain);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color2);
+  border: solid var(--colorMain) 0.15rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--colorHover);
+}
+
+@media screen and (max-width: 1080px) {
+  .wrapper {
+    width: 100%;
   }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: black
+  .post-container {
+    display: block;
   }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: var(--color2);
-    border: solid black 0.1rem
+  .post-form {
+    width: auto;
   }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color3);
+  .post-fields {
+    flex-direction: column;
   }
 
-  @media screen and (max-width: 780px){
-    .wrapper {
-        width: 100%
-    }
-    .post-container {
-        display: block;
-    }
-    .post-form {
-        width:auto;
-    }
-    .post-fields {
-        flex-direction: column;
-    }
+}
 
-  }

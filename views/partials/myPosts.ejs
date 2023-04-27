@@ -1,25 +1,18 @@
 <div id="my-posts" class="options-item">
-    <div>
-        <div class="item">
-                    <h2>My Posts</h2>
-        <button id="add-btn" class="button">ADD A POST</button>
+  <div class="item">
+    <h2>My Posts</h2>
 
-        </div>
-
-       
-        <% if(posts.length == 0){ %>
-            <h2>You have not posted yet</h2>
-        <% } else { %>
-            <% posts.forEach(post=>{ %>
-                <div class="mini">
-                    <a href="/post<%= post %>"><%= post %></a>
-                    <div class="icons">
-                        <span class="edit-post" title="Edit">📝</span>
-                        <span class="del-post" title="Delete">🚮</span>
-                    </div>    
-                </div>
-        <%      })  %>
-        <%  } %>
-        
+    <% if(posts.length == 0){ %>
+    <h2>You have not posted yet</h2>
+    <% } else { %> <% posts.forEach(post=>{ %>
+    <div class="mini">
+      <a href="/post<%= post %>"><%= post %></a>
+      <div class="icons">
+        <span class="edit-post" title="Edit">📝</span>
+        <span class="del-post" title="Delete">🚮</span>
+      </div>
     </div>
+    <% }) %> <% } %>
+    <button id="add-btn" class="button">ADD A POST</button>
+  </div>
 </div>

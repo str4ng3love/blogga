@@ -1,22 +1,25 @@
 <div class="header-container">
-    <div class="login-zone">
-        <% if(!sessUser){   %>
-            <button id="log-btn" class="button">LOG IN</button>
-        <% } else {   %>
-            <a href="/logout"><button id="logout-btn" class="button">LOG OUT</button></a>
-            <div class="user-box">
-                <p>Welcome <%= sessUser %></p>
-                <a href="/profile"> My profile </a>
-            </div>
-        <% } %>
-    
+  <div class="login-zone">
+    <a class="logo" href="/">Blogga</a>
+    <% if(!sessUser){ %>
+    <button id="log-btn" class="button">LOG IN</button>
+    <button id="register-btn" class="button">REGISTER</button>
+    <% } else { %>
+
+    <div class="user-box">
+      <div>Welcome <%= sessUser %></div>
+      <div class="user-box_container">
+        <a class="user-box_item" href="/profile"> My profile </a>
+        <a class="user-box_item" id="logout-btn" href="/logout">Log out</a>
+      </div>
     </div>
-    <nav class="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/users">Users</a></li>
-            <li><a href="/posts">Posts</a></li>
-            <li><a href="/about">About</a></li>
-        </ul>
-    </nav>
+    <% } %>
+  </div>
+  <nav class="navbar">
+    <ul>
+      <li><a class="button-secondary" href="/users">Users</a></li>
+      <li><a class="button-secondary" href="/posts">Posts</a></li>
+      <li><a class="button-secondary" href="/about">About</a></li>
+    </ul>
+  </nav>
 </div>

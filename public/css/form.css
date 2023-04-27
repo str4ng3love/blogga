@@ -4,6 +4,7 @@ h2 {
     padding: 1rem;
 }
 .form-container {
+
     position: absolute;
     height: 100%;
     width: 100%;
@@ -11,15 +12,17 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 100;
 }
-form {
+
+.form-container> form {
     box-shadow: var(--boxShadow);
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid black;
+    border: 1px solid var(--colorMain);
     z-index: 10000;
-    background-color: var(--color3);
+    background-color: var(--color1);
 }
 .fields {
     display: flex;
@@ -33,6 +36,13 @@ form {
     padding: 0.5rem;
     margin: 0.3rem 0;
     font-weight: 600;
+    color: var(--colorText);
+}
+.fields > input {
+    color: var(--colorBackground)
+}
+.fields > button {
+    margin: 1rem 0rem;
 }
 .fields a {
     background-color: var(--colorBackground);
@@ -41,7 +51,7 @@ form {
     line-height: 1.5rem;
 }
 .fields a:hover {
-    background-color: var(--color-hover)
+    background-color: var(--colorHover)
 
 }
 .fields a:active {
@@ -51,7 +61,7 @@ form {
 .err-span {
   border: solid red 0.1rem;
   background-color: var(--colorErr);
-  color: white;
+  color: var(--colorText);
   max-width:fit-content;
   border-radius: 10px;
   padding: 1rem 2rem;

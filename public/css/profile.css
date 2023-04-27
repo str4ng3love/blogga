@@ -1,67 +1,79 @@
 .options-container {
-
-    padding: 1.5rem;
-    gap: 1rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) ;
-    background-color: var(--color1);
+  padding: 1.5rem;
+  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  background-color: var(--color1);
 }
 .options-item {
-    padding:1rem;
-    
-   
+  height: fit-content;
+  padding: 1rem;
 }
-.options-item > * {
-    background-color: var(--color2);
-    box-shadow: none;
-    border: none;
-  
+.options-item > div,
+form {
+  background-color: var(--colorBackground);
+  box-shadow: none;
+  border: none;
+  padding: 1rem;
 }
 .mini {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--colorBackground);
+  width: 100%;
+  margin-bottom: 0.1rem;
+}
+.friend {
+  padding: 0.5rem;
+  width: 20ch;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.del-friend,
+.edit-post,
+.del-post,
+.mini > a {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 5px;
+  transition: all 150ms ease;
+}
 
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   background-color: var(--color2);
-   width: 100%;
-   padding: 0.5rem;
-} 
-.mini:hover{
-    background-color: var(--colorHover);
-
+.friend:hover {
+  background-color: var(--colorHover);
 }
-.options-item > form, .options-item > div{
-    box-shadow: var(--boxShadow);
+.del-friend:hover,
+.edit-post:hover,
+.del-post:hover,
+.mini > a:hover {
+  background-color: var(--colorHover);
 }
-.options-item h2{
-    display: flex;
-    justify-content: center;
+.options-item > form,
+.options-item > div {
+  box-shadow: var(--boxShadow);
 }
-.icons span {
-    padding: 0.2rem;
-    cursor: pointer;
-}
-
-.icons span:hover {
-    background-color: var(--colorHover);
-    cursor: pointer;
+.options-item h2 {
+text-align: center;
 }
 .add-friend {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    background-color: var(--color2);
-    z-index: 10000;
-    border: solid black 0.2rem;
-    box-shadow: 0 0 1rem black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--color1);
+  z-index: 10000;
+  border: solid var(--colorMain) 0.2rem;
+  box-shadow: 0 0 1rem var(--colorMain);
 }
 .add-friend > * {
-    padding: 1rem;
-    margin: 0.3rem;
-    font-weight: bold;
-    font-size: 1.2rem;
+  padding: 1rem;
+  margin: 0.3rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--colorMain);
 }
 .del-friend:hover {
-    cursor: pointer;
+  cursor: pointer;
 }

@@ -8,13 +8,18 @@
     <%- include('../partials/header');  -%>
   <div class="wrapper">
       
-    <div class="sub-header">
-        <h1>Welcome to Blogga</h1>
-        <h2>A place to share your thoughts.</h3>
+    <div class="heading">
+        <h1 class="hero-heading">Welcome to Blogga</h1>
+        <h2 class="hero-heading_sm">Share your world <br> with everyone.</h3>
     </div>
-        <div class="index-div">
-           <img src="/static/img/pencil-g8b86dd565_1920.jpg" alt="">
-        </div>
+    <div class="heading_middle">
+      <% if(!sessUser){   %>
+      <h3 id="start_login_btn" class="hero-heading_sm button">Start blogging now !</h3>
+      <% } else {   %>
+        <h3 id="start_post_btn" class="hero-heading_sm button">Start blogging now !</h3>
+        <% } %>
+    </div>
+    <div>newest posts</div>
 
   </div>
 </body>

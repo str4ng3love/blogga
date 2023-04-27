@@ -168,7 +168,7 @@ const ErrorHandler = (formMsg)=> {
     let inputs = document.querySelectorAll('input')
     inputs.forEach((input)=>{
 
-        input.style.backgroundColor = 'white'
+        input.style.backgroundColor = ' var(--colorText)'
     })
 
     const form = document.querySelector('form')
