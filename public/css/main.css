@@ -1,11 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
 @import url(header.css);
 @import url(form.css);
-@import url(users.css);
-@import url(profile.css);
-@import url(posts.css);
-@import url(postForm.css);
-@import url(footer.css);
-@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
 :root {
   --colorMain: rgb(20, 20, 20);
   --colorMainAlpha50: rgba(20, 20, 20, 0.5);
@@ -33,7 +28,7 @@
 }
 html,
 body {
-  min-width: 500px;
+
   background-color: var(--colorBackground);
 }
 h1,
@@ -47,15 +42,19 @@ h5 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 8rem;
+  padding-top:12rem;
 }
 .heading_middle {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 1rem;
+  padding:6rem 0rem;
+}
+.hero-container {
+  min-height: calc(100dvh - var(--headerH));
 }
 .hero-heading {
+  padding-bottom: 4rem;
   font-size: 4rem;
 }
 .hero-heading_sm {
@@ -66,7 +65,23 @@ h1 {
   font-weight: bold;
   padding: 2rem;
 }
-
+.logo {
+  padding: 1rem;
+  font-family: "Rowdies";
+  font-weight: bold;
+  font-size: 2rem;
+  background-color: var(--colorHover);
+  color: var(--colorText);
+  border-radius: 5px;
+  margin: 0rem 1rem;
+  transition:all 150ms ease; 
+  height: fit-content;
+}
+.logo:hover {
+  color:var(--colorHover);
+  background-color: var(--colorText);
+  box-shadow: 0rem 0rem 1rem var(--colorText);
+}
 .button {
   user-select: none;
   border: 0px;
@@ -78,6 +93,7 @@ h1 {
   padding: 0.8rem;
   font-size: 1rem;
   font-weight: bold;
+  font-family: "Rowdies";
   margin: 0rem 0.2rem;
   color: var(--colorHover);
   border-radius: 5px;
@@ -97,14 +113,11 @@ h1 {
   user-select: none;
   border: 0px;
   white-space: nowrap;
-  height: 3rem;
-  min-width: 10ch;
   background-color: var(--color3);
   cursor: pointer;
   padding: 0.8rem;
   font-size: 1rem;
   font-weight: bold;
-  margin: 0rem 0.2rem;
   color: var(--colorText);
   border-radius: 5px;
   transition: all 150ms ease;
@@ -119,56 +132,15 @@ h1 {
 .button:active {
   background-color: rgb(92, 90, 143);
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  padding-top: 4rem;
-}
-.wrapper {
-  width: 80%;
-  margin: 0 auto;
-  min-height: var(--wrapperH);
-}
-.item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-}
-.item > *:hover {
-  background-color: var(--colorHover);
-}
-.bg {
-  background-image: url("../img/people-gabace98e1_1920.jpg");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.panel {
-  min-height: var(--wrapperH);
-  background-color: var(--colorMainAlpha50);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.panel p {
-  font-size: 1.5rem;
-  text-align: center;
-  padding: 2rem;
-  font-weight: bold;
-  background-color: var(--color2);
-  border-radius: 5px;
-  box-shadow: var(--boxShadow);
-}
-.panel a {
-  margin-top: 3rem;
-}
-.panel img {
-  margin: 3rem 0rem;
-  height: auto;
-  max-height: 500px;
+
+.skewed {
+  min-height: 125px;
+  min-width: 100%;
+  background-color: var(--color3);
+  transform: skewY(3deg) translateY(-3.79rem);
+  position: absolute;
+  box-shadow: 0rem 0rem 1rem var(--colorMain);
+  z-index: 1;
 }
 
 /* width */
@@ -194,9 +166,7 @@ h1 {
 }
 
 @media screen and (max-width: 1080px) {
-  .wrapper {
-    width: 100%;
-  }
+
   .post-container {
     display: block;
   }

@@ -23,7 +23,7 @@ export const CreateLogForm=()=>{
     labName.innerHTML ="User Name:"
     labPass.innerHTML ="Password:"
     btn.innerHTML = "LOG IN"
-    regLink.innerHTML ="Don't have an account? Register"
+    regLink.innerHTML =`Don't have an account? Register`
     
 
 

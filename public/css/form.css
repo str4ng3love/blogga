@@ -1,75 +1,44 @@
-h2 {
-    font-size: 1.4rem;
-    font-weight: bold;
-    padding: 1rem;
-}
 .form-container {
-
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    backdrop-filter: blur(5px) ;    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
+  position: absolute;
+  min-width: 100vw;
+  min-width: 100dvw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  background-color: var(--colorMainAlpha50);
+  z-index: 500;
 }
-
-.form-container> form {
-    box-shadow: var(--boxShadow);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid var(--colorMain);
-    z-index: 10000;
-    background-color: var(--color1);
+form {
+  background-color: var(--color2);
+  box-shadow: var(--boxShadow);
+  border-radius: 5px;
+  padding: 1rem;
 }
 .fields {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 2rem;
-    max-width: min-content;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
 }
-.fields> * {
-    padding: 0.5rem;
-    margin: 0.3rem 0;
-    font-weight: 600;
-    color: var(--colorText);
+.fields > * {
+  padding: 1rem;
+}
+.fields > button,
+a {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+.fields > a {
+  transition: all 150ms ease-in;
+  border-radius: 5px;
+}
+.fields > a:hover {
+  color: var(--colorHover);
+  background-color: var(--colorText);
+  box-shadow: 0rem 0rem 1rem var(--colorText);
+  scale: 1.05;
 }
 .fields > input {
-    color: var(--colorBackground)
-}
-.fields > button {
-    margin: 1rem 0rem;
-}
-.fields a {
-    background-color: var(--colorBackground);
-    cursor: pointer;
-    text-align: center;
-    line-height: 1.5rem;
-}
-.fields a:hover {
-    background-color: var(--colorHover)
-
-}
-.fields a:active {
-    background-color: var(--color3);
-
-}
-.err-span {
-  border: solid red 0.1rem;
-  background-color: var(--colorErr);
-  color: var(--colorText);
-  max-width:fit-content;
-  border-radius: 10px;
-  padding: 1rem 2rem;
-  margin:0.5rem;
-}
-.centered-container {
-    padding-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  color: var(--colorMain);
 }

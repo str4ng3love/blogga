@@ -3,27 +3,8 @@
 <head>
     <%- include('../partials/head'); -%>
 </head>
-
 <body>
-
-    <%- include('../partials/header');  -%>
-  <div class="wrapper">
-      
-    <div class="heading">
-        <h1 class="hero-heading">Welcome to Blogga</h1>
-        <h2 class="hero-heading_sm">Share your world <br> with everyone.</h3>
-    </div>
-    <div class="heading_middle">
-      <% if(!sessUser){   %>
-      <h3 id="start_login_btn" class="hero-heading_sm button">Start blogging now !</h3>
-      <% } else {   %>
-        <h3 id="start_post_btn" class="hero-heading_sm button">Start blogging now !</h3>
-        <% } %>
-    </div>
-    <%- include('../partials/newestPosts'); %>
-  </div>
-  <%- include('../partials/footer'); -%>
-  
+  <%- include('../partials/header'); -%>
 </body>
 <script  src="/static/script.js" type="module" defer></script>
 
