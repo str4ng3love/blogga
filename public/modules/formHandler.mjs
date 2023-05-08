@@ -159,7 +159,8 @@ const HandleRegister = async (e)=>{
 
 }
 
-const ErrorHandler = (formMsg)=> {
+export const ErrorHandler = (formMsg)=> {
+
     let oldErr = document.querySelector('span')
     if(oldErr){
         oldErr.remove()
@@ -176,9 +177,9 @@ const ErrorHandler = (formMsg)=> {
     errSpan.setAttribute('class', 'err-span')
     errSpan.innerHTML = formMsg.messages
 
-    if(formMsg.messages.length == 1 && formMsg.messages[0].includes(`success`)) {
-        errSpan.style.backgroundColor = 'green'
 
+    if(formMsg.messages[0].includes(`success`)) {
+        errSpan.style.backgroundColor = 'green'
         setTimeout(()=>{
             const formC = document.getElementsByClassName('form-container')
             if(formC){
@@ -187,19 +188,39 @@ const ErrorHandler = (formMsg)=> {
             }
            
         }, 1000 * 1)
-        
+    } else if(formMsg.messages.includes(`Success`)){
+       let h= document.getElementById('password-change-header')
+       h.style.opacity = 0
+       setTimeout(()=>{
+        h.innerHTML = "Success"
+        h.style.backgroundColor = "var(--colorHover"
+        h.style.opacity = 1
+       }, 300)
+      
+       setTimeout(()=>{
+        h.style.opacity = 0
+       }, 3000)
+       setTimeout(()=>{
+        h.innerHTML = "Change password"
+        h.style.backgroundColor = "inherit"
+        h.style.opacity = 1
+       }, 3600)
+
+
+    } else {
+        form.insertBefore(errSpan, form.firstChild)
+        if(formMsg.fields) {
+          
+           formMsg.fields.forEach((field)=>{
+       
+               let el = document.getElementsByName(field)
+               el[0].style.backgroundColor = 'red'
+       
+           }) 
+       }
+          
     }
    
-    form.insertBefore(errSpan, form.firstChild)
-     if(formMsg.fields) {
-       
-        formMsg.fields.forEach((field)=>{
-    
-            let el = document.getElementsByName(field)
-            el[0].style.backgroundColor = 'red'
-    
-        }) 
-    }
-       
+ 
 
 }

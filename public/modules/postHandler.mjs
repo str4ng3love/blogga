@@ -2,7 +2,7 @@ let oldTitle
 
 export const CreatePost=()=>{
     const container = document.createElement('div')
-    const postForm = document.createElement('div')
+    const postForm = document.createElement('form')
     const fields = document.createElement('div')
     const pFields = document.createElement('div')
     const pFields1 = document.createElement('div')
@@ -10,6 +10,7 @@ export const CreatePost=()=>{
     const pFields3 = document.createElement('div')
     const pFields4 = document.createElement('div')
     const pFields5 = document.createElement('div')
+    const btnContainer = document.createElement('div')
     const labTitle = document.createElement('label')
     const inputTitle = document.createElement('input')
     const labPar = document.createElement('label')
@@ -23,19 +24,20 @@ export const CreatePost=()=>{
     const labPar2 = document.createElement('label')
     const taPar2 = document.createElement('textarea')
     const btn = document.createElement('button')
-    container.setAttribute('class', 'post-container')
+    container.setAttribute('class', 'form-container')
     postForm.setAttribute('class', 'post-form')
     fields.setAttribute('class', 'input')
-    pFields.setAttribute('class', 'post-fields')
-    pFields1.setAttribute('class', 'post-fields')
-    pFields2.setAttribute('class', 'post-fields')
-    pFields3.setAttribute('class', 'post-fields')
-    pFields4.setAttribute('class', 'post-fields')
-    pFields5.setAttribute('class', 'post-fields')
+    pFields.setAttribute('class', 'fields')
+    pFields1.setAttribute('class', 'fields')
+    pFields2.setAttribute('class', 'fields')
+    pFields3.setAttribute('class', 'fields')
+    pFields4.setAttribute('class', 'fields')
+    pFields5.setAttribute('class', 'fields')
     inputImg.setAttribute('placeholder', 'optional')
     inputImg1.setAttribute('placeholder', 'optional')
     taPar1.setAttribute('placeholder', 'optional')
     taPar2.setAttribute('placeholder', 'optional')
+    btnContainer.classList.add('btn_container')
     btn.setAttribute('class', 'button')
     labTitle.innerHTML = `Title: `
     labPar.innerHTML = `Paragraph1: `
@@ -52,12 +54,14 @@ export const CreatePost=()=>{
     pFields3.append(labPar1, taPar1)
     pFields4.append(labImg1, inputImg1)
     pFields5.append(labPar2, taPar2)
+    btnContainer.append(btn)
     fields.append(pFields, pFields1, pFields2, pFields3, pFields4, pFields5)
-    postForm.append(fields, btn)
+    postForm.append(fields, btnContainer)
     container.append(postForm)
     document.body.insertAdjacentElement('afterbegin', container)
     
     btn.addEventListener('click', (e)=> {
+        e.preventDefault()
         handleCreatePost(e)
     })
     container.addEventListener('click', (e)=>{
@@ -71,10 +75,12 @@ const handleCreatePost = async (e)=>{
     let post = {
     }
     let data = []
-    const input = Array.from(e.target.previousSibling.children)
+
+    const input = Array.from(e.target.parentElement.previousSibling.children)
         input.forEach(el => {
             data.push(el.children[1].value)
         })
+  
     post = {
         title: data[0],
         paragraph1: data[1],
@@ -234,7 +240,7 @@ const handleEditPost = async (e, address)=>{
         let message = await resp.json()
         ErrorHandler(message)
        
-        
+        console.log(resp)
         
     } catch (error) {
         console.log(error)

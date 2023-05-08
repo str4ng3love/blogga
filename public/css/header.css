@@ -10,8 +10,8 @@
   transform: rotate(-135deg);
 }
 #hamburger:checked + #menu-button-container .menu-button {
-  background-color: var(--colorMain);
-  transform: translate(-100%);
+height: 0;
+transform: translateX(-100%);
 }
 #menu-button-container {
   height: 100%;
@@ -26,8 +26,6 @@
   align-items: center;
   justify-content: space-between;
   height: var(--headerH);
-  width: 100dvw;
-  width: 100vw;
   background-color: var(--colorMain);
   padding: 1rem;
 }
@@ -41,7 +39,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--color2);
+  background-color: var(--color2Alpha50);
   overflow: hidden;
   transition: height 150ms ease-in;
 }
@@ -55,7 +53,7 @@
   transform: translate(-50%, -50%);
   width: 2rem;
   background-color: var(--colorText);
-  transition: all 200ms ease-in;
+  transition: var(--transition);
 }
 .menu-button::before {
   content: "";
@@ -78,13 +76,20 @@
   margin: 0.2rem 0rem !important;
   flex-grow: 4;
 }
-
+.welcome {
+  text-align: center;
+  align-self: center;
+  font-weight: bold;
+  line-height: 1.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 @media screen and (min-width: 840px) {
   #menu-button-container {
     display: none;
   }
-  .menu {
-    height: auto;
+  nav.header div.menu {
+    height: auto   !important;
     flex-direction: row;
     justify-content: space-between;
     position: relative;

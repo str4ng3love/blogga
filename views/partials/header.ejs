@@ -6,13 +6,21 @@
   </label>
   <div class="menu">
     <div class="item-container">
-      <a class="button-secondary" href="">Users</a>
+      <a class="button-secondary" href="/users">Users</a>
       <a class="button-secondary" href="">Posts</a>
       <a class="button-secondary" href="">About</a>
     </div>
+    <% if(sessUser) { %>
+    <span class="welcome">Welcome <br> <%= sessUser %></span>
+    <div class="item-container">
+      <a class="button" href="/profile">PROFILE</a>
+      <a class="button" href="/logout">LOGOUT</a>
+    </div>
+    <% } else {%>
     <div class="item-container">
       <button class="button" id="log-btn">LOGIN</button>
       <button class="button" id="register-btn">REGISTER</button>
     </div>
+    <%} %>
   </div>
 </nav>

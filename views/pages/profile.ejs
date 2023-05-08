@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); -%>
+  </head>
+  <body>
+    <%- include('../partials/header'); -%>
+    <section class="profile-container">
+      <div class="profile-item">
+        <div class="list-container">
+          <h4>Your posts</h4>
+            <div class="centered">
+
+              <span id="add-btn" class="button">Add a Post</span>
+            </div>
+       
+          <% if(posts.length < 1) { %>
+          <div>
+            <h3>You haven't posted anything yet</h3>
+          </div>
+          <% } else { %> <% posts.forEach(post => { %>
+          <div class="list-item">
+            <div class="content">
+              <span><%= post.title %></span>
+              <span><%= post.meta.postedOn.toString().slice(0, 24) %></span>
+            </div>
+            <div class="tool-box">
+              <span class="del-post">Delete</span>
+              <span class="edit-post">Edit</span>
+            </div>
+          </div>
+
+          <% } )}%>
+        </div>
+      </div>
+      <div class="profile-item">
+        <div class="list-container">
+          <h4>Followed authors</h4>
+          <% if(friends.length < 1) { %>
+          <div>
+            <h3>You haven't followed anyone yet</h3>
+          </div>
+          <% } else { %> <% friends.forEach(friend => { %>
+          <div class="list-item">
+            <div class="content">
+              <span><%= friend %></span>
+            </div>
+
+            <div class="tool-box centered"><span class="unfollow">Unfollow</span></div>
+          </div>
+          <% } )}%>
+        </div>
+      </div>
+      <div class="profile-item">
+        <form>
+          <div class="fields">
+            <h4 id="password-change-header">Change password</h4>
+            <label>Password: </label>
+            <input
+              name="password"
+              type="password"
+              autocomplete="current-password"
+            />
+            <label>New Password: </label>
+            <input
+              name="new-password"
+              type="password"
+              autocomplete="new-password"
+            />
+            <label>Re-Type Password: </label>
+            <input
+              name="re-password"
+              type="password"
+              autocomplete="new-password"
+            />
+            <button class="button" id="change-password">SUBMIT</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <script src="/static/script.js" type="module" defer></script>
+  </body>
+</html>

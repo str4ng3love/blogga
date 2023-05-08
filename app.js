@@ -1,6 +1,6 @@
 require("dotenv").config();
-const userChecker = require("./controllers/userChecker");
-const errorHandler = require("./controllers/errorHandler");
+const userChecker = require("./middleware/userChecker");
+const errorHandler = require("./middleware/errorHandler");
 const User = require("./models/user");
 const Post = require("./models/post");
 const path = require("path");
@@ -123,7 +123,7 @@ app.get("/users", async (req, res) => {
     if (req.session.user) {
       currentUser = await User.findOne({ user: req.session.user });
     }
-
+// console.log(users)
     for (let i = 0; i < users.length; i++) {
       let userData = {
         user: users[i].user,
@@ -317,16 +317,16 @@ app.get("/profile", async (req, res) => {
   let postList = [];
 
   try {
-    let posts = await Post.find().populate("meta.author");
+    let posts = await Post.aggregate([
+      {$match: {"meta.author" : req.session.userId}},
+      {$project: {title:1, "meta.postedOn":1}}
+    ])
 
-    for (let i = 0; i < posts.length; i++) {
-      if (posts[i].meta.author._id.toString() == req.session.userId) {
-        postList.push(posts[i].title);
-      }
-    }
+    postList = posts
   } catch (error) {
     console.log(error.message);
   }
+
   try {
     let user = await User.findOne({ user: req.session.user }).populate(
       "meta.friendsList"
@@ -339,10 +339,10 @@ app.get("/profile", async (req, res) => {
   }
 
   res.render("pages/profile", {
-    title: `My profile`,
+    title: `Blogga | My profile`,
     sessUser: req.session.user,
     friends: usersFriends,
-    posts: postList,
+    posts: postList
   });
 });
 app.post("/addfriend", async (req, res) => {
@@ -377,21 +377,23 @@ app.delete("/post", async (req, res) => {
   }
 });
 app.post("/createpost", async (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    paragraph1: req.body.paragraph1,
-    paragraph2: req.body.paragraph2,
-    paragraph3: req.body.paragraph3,
-    img1: req.body.img1,
-    img2: req.body.img2,
-    meta: {
-      author: req.session.userId.toString().slice(0),
-    },
-  });
-
+// todo style message
   if (req.session.user) {
     try {
-      await post.save();
+    const resp =  await Post.create({
+        title: req.body.title,
+        paragraph1: req.body.paragraph1,
+        paragraph2: req.body.paragraph2,
+        paragraph3: req.body.paragraph3,
+        img1: req.body.img1,
+        img2: req.body.img2,
+        meta: {
+          author: req.session.userId.toString().slice(0),
+          postedOn: Date.now()
+        },
+    
+      });
+      console.log(resp)
       res.status(201).json({ messages: [`Posted!`] });
     } catch (error) {
       next(error);
@@ -420,6 +422,7 @@ app.get("/logout", async (req, res) => {
   });
 });
 app.post("/changepass", async (req, res, next) => {
+
   let resp;
   try {
     resp = await User.findOneAndUpdate(
@@ -431,7 +434,7 @@ app.post("/changepass", async (req, res, next) => {
     if (resp) {
       res.json({ messages: `Success!` });
     } else if (!resp) {
-      res.status(404).json({ messages: `Please enter your current password.` });
+      res.status(404).json({ messages: `Please enter your current password.`, fields:['password'] });
     }
   } catch (error) {
     console.log(error.errors);

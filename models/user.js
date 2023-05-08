@@ -34,11 +34,15 @@ const userSchema = new Schema({
     createdAt:{
         type: Date,
         required: true,
-        default: Date.now(),
+        default: Date.now,
+    },
+    posts:{
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Post"
     },
     meta: {
         lastVisited: {
-            default: Date.now(),
+            default: Date.now,
             type: Date
         },
         isOnline: {

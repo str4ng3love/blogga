@@ -1,0 +1,33 @@
+.grid-container {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  justify-content: center;
+  padding: 1rem 5rem;
+}
+
+.grid_item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  background-color: var(--colorMainAlpha50);
+  border-radius: 5px;
+  transition: all 200ms ease-in;
+}
+.grid_item >:first-child {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.grid_item>:nth-child(n +2) {
+  font-size: 0.8rem;
+}
+.grid_item:hover, .grid_item:active {
+    color: var(--colorText);
+    background-color: var(--colorHover);
+    box-shadow: 0rem 0rem 1rem var(--colorHover);
+    scale: 1.01;
+}
+.grid_item > * {
+  line-height: 1.6rem;
+}
+

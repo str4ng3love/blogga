@@ -1,9 +1,7 @@
 .form-container {
-  position: absolute;
-  min-width: 100vw;
-  min-width: 100dvw;
-  min-height: 100vh;
-  min-height: 100dvh;
+  position: fixed;
+  min-width: 100%;
+  min-height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,18 +9,46 @@
   background-color: var(--colorMainAlpha50);
   z-index: 500;
 }
-form {
+.btn_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0rem;
+}
+form, .list-container  {
   background-color: var(--color2);
   box-shadow: var(--boxShadow);
   border-radius: 5px;
   padding: 1rem;
 }
+.post-form {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height:90vh;
+  max-height: 90dvh;
+  max-width: 90vw;
+  max-width: 90dvw;
+}
 .fields {
   display: flex;
   flex-direction: column;
 }
+.fields > label {
+  user-select: none;
+}
+.fields > textarea {
+  max-width: 80vw;
+  max-width: 80dvw;
+  min-width: 40vw;
+  min-width: 40dvw;
+  color: var(--colorMain);
+}
 .fields > * {
   padding: 1rem;
+}
+.fields >h4 {
+  border-radius: 5px;
+  transition: opacity 300ms ease;
 }
 .fields > button,
 a {
@@ -42,3 +68,14 @@ a {
 .fields > input {
   color: var(--colorMain);
 }
+.err-span {
+  display: block;
+  padding: 1rem;
+  background-color: var(--colorErr);
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  border: 2px solid red;
+  font-weight: bold;
+}
+
