@@ -85,7 +85,7 @@ app.post("/login", async (req, res) => {
       } else {
         res
           .status(404)
-          .json({ messages: [`Please provide valid credentials`] });
+          .json({ messages: [`Please provide valid credentials` ], fields: ["username", "password"],});
       }
     } catch (error) {
       console.log(error);
@@ -112,7 +112,7 @@ app.post("/register", async (req, res, next) => {
   } else {
     res
       .status(400)
-      .json({ messages: `Please retype your password`, fields: [`confirm`] });
+      .json({ messages: [`Please retype your password`], fields: [`confirm`] });
   }
 });
 app.get("/users", async (req, res) => {
@@ -233,6 +233,7 @@ app.get("/posts", async (req, res) => {
     posts: postList,
   });
 });
+// todo: optimize route
 app.post("/getpost", async (req, res) => {
   let post;
   try {
@@ -267,6 +268,7 @@ app.get("/about", (req, res) => {
 
 app.get("*", userChecker);
 app.post("/editpost", async (req, res, next) => {
+
   try {
     let resp = await Post.findOneAndUpdate(
       { title: req.body.oldTitle },
@@ -283,7 +285,7 @@ app.post("/editpost", async (req, res, next) => {
       { runValidators: true }
     );
     if (resp) {
-      res.status(201).json({ messages: [`Updated!`] });
+      res.status(201).json({ messages: [`Post updated successfully!`] });
     } else {
       res.status(404).json({ messages: ["Post not found."] });
     }
@@ -345,23 +347,24 @@ app.get("/profile", async (req, res) => {
     posts: postList
   });
 });
+// todo check whether user is already followed
 app.post("/addfriend", async (req, res) => {
   try {
     const resp = await User.findOne({ user: req.body.user });
     if (resp === null) {
-      res.status(404).json({ messages: "User not found." });
+      res.status(404).json({ messages: ["User not found." ], fields:[``]});
     } else if (resp.user === req.session.user) {
-      res.status(401).json({ messages: `Can't add yourself.` });
+      res.status(401).json({ messages: [`Can't follow yourself.`], fields:[``] });
     } else if (resp.user) {
       const ans = await User.findOneAndUpdate(
         { user: req.session.user },
         { $addToSet: { "meta.friendsList": resp._id } }
       );
-      res.json({ messages: "Friend added." });
+      res.json({ messages: ["Author followed successfully."], fields:[``] });
     } else {
       res
         .status(500)
-        .json({ messages: "Something went wrong, try again later." });
+        .json({ messages: ["Something went wrong, try again later."],  fields:[''] });
     }
   } catch (error) {
     console.log(error.message);
@@ -377,7 +380,7 @@ app.delete("/post", async (req, res) => {
   }
 });
 app.post("/createpost", async (req, res, next) => {
-// todo style message
+
   if (req.session.user) {
     try {
     const resp =  await Post.create({
@@ -393,13 +396,13 @@ app.post("/createpost", async (req, res, next) => {
         },
     
       });
-      console.log(resp)
-      res.status(201).json({ messages: [`Posted!`] });
+
+      res.status(201).json({ messages: [`Posted successfully!`] });
     } catch (error) {
       next(error);
     }
   } else {
-    res.status(400).json({ messages: `someting went wong` });
+    res.status(400).json({ messages: [`someting went wong`] });
   }
 });
 
@@ -434,7 +437,7 @@ app.post("/changepass", async (req, res, next) => {
     if (resp) {
       res.json({ messages: `Success!` });
     } else if (!resp) {
-      res.status(404).json({ messages: `Please enter your current password.`, fields:['password'] });
+      res.status(404).json({ messages: [`Please enter your current password.`], fields:['password'] });
     }
   } catch (error) {
     console.log(error.errors);

@@ -2,7 +2,7 @@ import { ErrorHandler } from "./formHandler.mjs";
 
 export const DeletePost = async (e) => {
   const par = e.target.parentElement.parentElement;
-  const title = par.children[0].children[0].innerHTML
+  const title = par.children[0].children[0].innerHTML;
 
   try {
     const resp = await fetch("/post", {
@@ -28,18 +28,26 @@ const HandleDelete = (delMsg) => {
 
 export const AddFriend = (e) => {
   const container = document.createElement("div");
+  const form = document.createElement("form");
+  const heading = document.createElement("h4");
   const box = document.createElement("div");
+  const box2 = document.createElement("div");
   const label = document.createElement("label");
   const input = document.createElement("input");
   const btn = document.createElement("button");
   box.setAttribute("class", "fields");
-  box.setAttribute("class", "add-friend");
+  box2.setAttribute("class", "fields");
+  heading.innerHTML = "Find and follow an author.";
+  heading.setAttribute("id", "follow-author-heading");
+  input.setAttribute('name', 'username')
   label.innerHTML = "Enter user name: ";
   btn.innerHTML = "ADD";
   btn.setAttribute("class", "button");
-  container.setAttribute("class", "post-container");
+  container.setAttribute("class", "form-container");
   box.append(label, input, btn);
-  container.append(box);
+  box2.append(heading);
+  form.append(box2, box);
+  container.append(form);
   document.body.insertBefore(container, document.body.firstChild);
 
   btn.addEventListener("click", HandleAddFriend);
@@ -51,22 +59,27 @@ export const AddFriend = (e) => {
   });
 };
 const HandleAddFriend = async (e) => {
-  const par = e.target.parentElement.children;
-  const user = par[1].value;
-  console.log(user);
-  try {
-    const resp = await fetch("/addfriend", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user: user }),
-    });
-    let message = await resp.json();
-    console.log(message);
-    AFErrorHandler(message);
-  } catch (error) {
-    console.log(error.message);
+  e.preventDefault();
+  let user = e.target.parentElement.children[1].value;
+
+  if (user.length === 0) {
+    let message = {messages: `Please provide an username`, fields: ["username"]};
+    return ErrorHandler(message);
+  } else {
+    try {
+      const resp = await fetch("/addfriend", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user: user }),
+      });
+      let message = await resp.json();
+
+      ErrorHandler(message);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 };
 const AFErrorHandler = (msg) => {
@@ -91,7 +104,6 @@ const AFErrorHandler = (msg) => {
 export const Befriend = async (e) => {
   const par = e.target.parentElement.children;
   const user = par[0].innerText;
-  console.log(user);
 
   try {
     const resp = await fetch("/addfriend", {
@@ -120,18 +132,25 @@ const ShowTicker = (el, msg) => {
 export const ChangePass = async (e) => {
   e.preventDefault();
   const els = e.target.parentElement.children;
-  let message 
+  let message;
 
- let fields = []
-  if(els[2].value.length < 8 || els[4].value.length < 8|| els[6].value.length < 8 ) {
-    els[2].value.length < 8 ? fields.push('password') : null
-    els[4].value.length < 8 ? fields.push('new-password') : null
-    els[6].value.length < 8 ? fields.push('re-password') : null
-    message = { messages: "Must be atleast 8 characters long.", fields:fields };
+  let fields = [];
+  if (
+    els[2].value.length < 8 ||
+    els[4].value.length < 8 ||
+    els[6].value.length < 8
+  ) {
+    els[2].value.length < 8 ? fields.push("password") : null;
+    els[4].value.length < 8 ? fields.push("new-password") : null;
+    els[6].value.length < 8 ? fields.push("re-password") : null;
+    message = {
+      messages: "Must be atleast 8 characters long.",
+      fields: fields,
+    };
     return ErrorHandler(message);
-  } 
-  
-  if(els[4].value === els[6].value) {
+  }
+
+  if (els[4].value === els[6].value) {
     let password = {
       password: els[2].value,
       newPassword: els[4].value,
@@ -148,30 +167,32 @@ export const ChangePass = async (e) => {
     } catch (error) {
       console.log(error.message);
     }
-    ErrorHandler(message)
   } else {
-    message = { messages: `Please confirm new password.` };
+    message = {
+      messages: `Please confirm new password.`,
+      fields: ["re-password"],
+    };
   }
-
+  ErrorHandler(message);
 };
 
 export const DeleteFriend = async (e) => {
-  const par = e.target.parentElement;
-  const target = par.children;
-  console.log(target[0].innerHTML);
+  console.log(e.target);
+  const par = e.target.parentElement.parentElement;
+  const target = par.children[0].children[0].innerHTML;
+
   try {
     const resp = await fetch("/remove-friend", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user: target[0].innerHTML }),
+      body: JSON.stringify({ user: target }),
     });
     const message = await resp.json();
     if (message.messages.includes("removed")) {
       location.reload();
     }
-    console.log(message.messages);
   } catch (error) {
     console.log(error);
   }

@@ -42,6 +42,11 @@ h4,
 h5 {
   font-family: "Rowdies", cursive;
 }
+h4 {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.4rem;
+}
 .heading {
   display: flex;
   flex-direction: column;
@@ -165,7 +170,14 @@ h1 {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--colorHover);
 }
+#add-btn, #add-friend {
+  width: fit-content;
+  margin: 1rem;
+}
 
+#log-in-heading {
+  align-self: center;
+}
 @media screen and (max-width: 1080px) {
 
   .post-container {
