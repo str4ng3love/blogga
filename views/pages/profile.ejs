@@ -9,11 +9,10 @@
       <div class="profile-item">
         <div class="list-container">
           <h4>Your posts</h4>
-            <div class="centered">
+          <div class="centered">
+            <span id="add-btn" class="button">Add a Post</span>
+          </div>
 
-              <span id="add-btn" class="button">Add a Post</span>
-            </div>
-       
           <% if(posts.length < 1) { %>
           <div>
             <h3>You haven't posted anything yet</h3>
@@ -21,9 +20,12 @@
           <% } else { %> <% posts.forEach(post => { %>
           <div class="list-item">
             <div class="content">
-              <span><%= post.title %></span>
-              <span><%= post.meta.postedOn.toString().slice(0, 24) %></span>
+              <a href="#" class="link">
+                <span><%= post.title %></span>
+                <span><%= post.meta.postedOn.toString().slice(0, 24) %></span>
+              </a>
             </div>
+
             <div class="tool-box">
               <span class="del-post">Delete</span>
               <span class="edit-post">Edit</span>
@@ -37,7 +39,6 @@
         <div class="list-container">
           <h4>Followed authors</h4>
           <div class="centered">
-
             <span id="add-friend" class="button">Follow an Author</span>
           </div>
           <% if(friends.length < 1) { %>
@@ -47,10 +48,12 @@
           <% } else { %> <% friends.forEach(friend => { %>
           <div class="list-item">
             <div class="content">
-              <span><%= friend %></span>
+              <a class="link" href="/user/<%= friend %>"><%= friend %></a>
             </div>
 
-            <div class="tool-box centered"><span class="unfollow del-friend">Unfollow</span></div>
+            <div class="tool-box centered">
+              <span class="unfollow del-friend">Unfollow</span>
+            </div>
           </div>
           <% } )}%>
         </div>

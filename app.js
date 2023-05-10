@@ -27,7 +27,7 @@ const store = new MongoDBStore(
 );
 if (app.get("env") === `production`) {
   app.set(`trust proxy`, 1);
-  session.cookie.secure = true;
+  session.Cookie.secure = true;
 }
 
 app.use(
@@ -153,63 +153,47 @@ app.get("/users", async (req, res) => {
     users: userList,
   });
 });
-app.get("/id:id", async (req, res) => {
-  try {
-    let user = await User.findById(req.params.id);
-    let name = await user.user;
-    res.json({ userName: name });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Something went wrong.");
-  }
-});
-app.get("/user:name", async (req, res) => {
-  let postList = [];
-  let userList = [];
+// app.get("/user/:slug", async (req, res) => {
+//   try {
+//     let user = await User.findById(req.params.id);
+//     let name = await user.user;
+//     res.json({ userName: name });
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).send("Something went wrong.");
+//   }
+// });
+app.get("/user/:slug", async (req, res) => {
   let currentUser;
-  let userData;
+  let user
+  let posts
   try {
-    const users = await User.find({ user: req.params.name });
+     user = await User.findOne({ user: req.params.slug}).select('user createdAt meta.lastVisited meta.friendsList')
     if (req.session.user) {
-      currentUser = await User.findOne({ user: req.session.user });
+      currentUser = await req.session.user ;
+      user.displayBefriend = true;
+      for(let i = 0; i < user.meta.friendsList.length; i++){
+        if(user.meta.friendsList[i].includes(currentUser)){
+          return user.displayBefriend = false;
+        } 
+      }
     }
 
-    for (let i = 0; i < users.length; i++) {
-      userData = {
-        id: users[i]._id,
-        user: users[i].user,
-        born: users[i].createdAt,
-        lastActive: users[i].meta.lastVisited,
-        status: users[i].meta.isOnline,
-        displayBefriend: false,
-      };
-      if (req.session.user) {
-        userData.displayBefriend = true;
-        if (
-          currentUser.meta.friendsList.includes(users[i]._id) ||
-          req.session.user == users[i].user
-        ) {
-          userData.displayBefriend = false;
-        }
-      }
-      userList.push(userData);
-    }
   } catch (error) {
     console.log(error);
     res.status(500);
   }
   try {
-    let posts = await Post.find().populate("meta.author");
+    posts = await Post.find({'meta.author': user}).populate("meta.author", 'user');
 
-   postList = posts
   } catch (error) {
     console.log(error.message);
   }
   res.render("pages/user", {
     title: "Blogga | User Profile",
     sessUser: req.session.user,
-    users: userList,
-    posts: postList,
+    user: user,
+    posts: posts,
   });
 });
 app.get("/posts", async (req, res) => {
@@ -396,7 +380,7 @@ app.post("/createpost", async (req, res, next) => {
         },
     
       });
-
+      if(resp)
       res.status(201).json({ messages: [`Posted successfully!`] });
     } catch (error) {
       next(error);
