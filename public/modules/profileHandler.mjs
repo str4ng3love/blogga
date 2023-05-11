@@ -102,8 +102,9 @@ const AFErrorHandler = (msg) => {
 };
 
 export const Befriend = async (e) => {
-  const par = e.target.parentElement.children;
-  const user = par[0].innerText;
+
+  const user = e.target.parentElement.parentElement.children[0].innerText;
+
 
   try {
     const resp = await fetch("/addfriend", {
@@ -115,19 +116,14 @@ export const Befriend = async (e) => {
     });
     let message = await resp.json();
 
-    ShowTicker(e.target, message);
+    if(message.messages[0].includes('success')){
+      location.reload()
+    }
   } catch (error) {
     console.log(error.message);
   }
 };
-const ShowTicker = (el, msg) => {
-  if (msg.messages.includes("Friend added")) {
-    el.innerHTML = "✅";
-    setTimeout(() => {
-      el.remove();
-    }, 2000);
-  }
-};
+
 
 export const ChangePass = async (e) => {
   e.preventDefault();
@@ -177,9 +173,9 @@ export const ChangePass = async (e) => {
 };
 
 export const DeleteFriend = async (e) => {
-  console.log(e.target);
   const par = e.target.parentElement.parentElement;
   const target = par.children[0].children[0].innerHTML;
+
 
   try {
     const resp = await fetch("/remove-friend", {

@@ -49,7 +49,9 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 app.get("/", async (req, res, next) => {
-  const newestPosts = await Post.find().sort({'meta.postedOn': 'descending'}).limit(5);
+  const newestPosts = await Post.find()
+    .sort({ "meta.postedOn": "descending" })
+    .limit(5);
   res.render("pages/index", {
     title: "Welcome to Blogga",
     sessUser: req.session.user,
@@ -83,9 +85,10 @@ app.post("/login", async (req, res) => {
         });
         res.status(200).json({ messages: [`You've logged in successfully`] });
       } else {
-        res
-          .status(404)
-          .json({ messages: [`Please provide valid credentials` ], fields: ["username", "password"],});
+        res.status(404).json({
+          messages: [`Please provide valid credentials`],
+          fields: ["username", "password"],
+        });
       }
     } catch (error) {
       console.log(error);
@@ -116,32 +119,27 @@ app.post("/register", async (req, res, next) => {
   }
 });
 app.get("/users", async (req, res) => {
-  let userList = [];
+  let users;
 
   try {
-    let users = await User.find();
+    users = await User.find()
+      .select("user createdAt meta.friendsList")
+      .sort({ user: "asc" });
     if (req.session.user) {
-      currentUser = await User.findOne({ user: req.session.user });
-    }
-// console.log(users)
-    for (let i = 0; i < users.length; i++) {
-      let userData = {
-        user: users[i].user,
-        born: users[i].createdAt,
-        lastActive: users[i].meta.lastVisited,
-        status: users[i].meta.isOnline,
-        displayBefriend: false,
-      };
-      if (req.session.user) {
-        userData.displayBefriend = true;
-        if (
-          currentUser.meta.friendsList.includes(users[i]._id) ||
-          req.session.user == users[i].user
-        ) {
-          userData.displayBefriend = false;
+      let currentUser = await User.findOne({ user: req.session.user }).select(
+        "user meta.friendsList"
+      );
+
+      for (let i = 0; i < users.length; i++) {
+        Object.assign(users[i], { displayBefriend: true });
+        if (currentUser.meta.friendsList.includes(users[i]._id)) {
+          users[i].displayBefriend = false;
+        }
+
+        if (users[i].user === currentUser.user) {
+          users.splice(i, 1);
         }
       }
-      userList.push(userData);
     }
   } catch (error) {
     console.log(error.message);
@@ -150,42 +148,35 @@ app.get("/users", async (req, res) => {
   res.render("pages/users", {
     title: "Blogga | Users",
     sessUser: req.session.user,
-    users: userList,
+    users: users,
   });
 });
-// app.get("/user/:slug", async (req, res) => {
-//   try {
-//     let user = await User.findById(req.params.id);
-//     let name = await user.user;
-//     res.json({ userName: name });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).send("Something went wrong.");
-//   }
-// });
 app.get("/user/:slug", async (req, res) => {
   let currentUser;
-  let user
-  let posts
+  let user;
+  let posts;
   try {
-     user = await User.findOne({ user: req.params.slug}).select('user createdAt meta.lastVisited meta.friendsList')
+    user = await User.findOne({ user: req.params.slug }).select(
+      "user createdAt meta.lastVisited meta.friendsList"
+    );
     if (req.session.user) {
-      currentUser = await req.session.user ;
+      currentUser = req.session.user;
       user.displayBefriend = true;
-      for(let i = 0; i < user.meta.friendsList.length; i++){
-        if(user.meta.friendsList[i].includes(currentUser)){
-          return user.displayBefriend = false;
-        } 
+      for (let i = 0; i < user.meta.friendsList.length; i++) {
+        if (user.meta.friendsList[i].includes(currentUser)) {
+          return (user.displayBefriend = false);
+        }
       }
     }
-
   } catch (error) {
     console.log(error);
     res.status(500);
   }
   try {
-    posts = await Post.find({'meta.author': user}).populate("meta.author", 'user');
-
+    posts = await Post.find({ "meta.author": user }).populate(
+      "meta.author",
+      "user"
+    );
   } catch (error) {
     console.log(error.message);
   }
@@ -252,7 +243,6 @@ app.get("/about", (req, res) => {
 
 app.get("*", userChecker);
 app.post("/editpost", async (req, res, next) => {
-
   try {
     let resp = await Post.findOneAndUpdate(
       { title: req.body.oldTitle },
@@ -278,8 +268,10 @@ app.post("/editpost", async (req, res, next) => {
     next(error);
   }
 });
+
 app.delete("/remove-friend", async (req, res) => {
   let friend;
+
   try {
     friend = await User.findOne({ user: req.body.user });
   } catch (error) {
@@ -292,6 +284,7 @@ app.delete("/remove-friend", async (req, res) => {
       { user: req.session.user },
       { $pull: { "meta.friendsList": friend._id } }
     );
+  
     res.json({ messages: "Friend removed." });
   } catch (error) {
     console.log(error.message);
@@ -299,26 +292,23 @@ app.delete("/remove-friend", async (req, res) => {
   }
 });
 app.get("/profile", async (req, res) => {
-  let usersFriends = [];
+  let user = [];
   let postList = [];
 
   try {
     let posts = await Post.aggregate([
-      {$match: {"meta.author" : req.session.userId}},
-      {$project: {title:1, "meta.postedOn":1}}
-    ])
-
-    postList = posts
+      { $match: { "meta.author": req.session.userId } },
+      { $project: { title: 1, "meta.postedOn": 1 } },
+    ]);
+    postList = posts;
   } catch (error) {
     console.log(error.message);
   }
 
   try {
-    let user = await User.findOne({ user: req.session.user }).populate(
-      "meta.friendsList"
-    );
-    user.meta.friendsList.forEach((friend) => {
-      usersFriends.push(friend.user);
+    user = await User.findOne({ user: req.session.user }).populate({
+      path: "meta.friendsList",
+      options: { sort: { user: "asc" }, select: "user" },
     });
   } catch (error) {
     console.log(error.message);
@@ -327,8 +317,8 @@ app.get("/profile", async (req, res) => {
   res.render("pages/profile", {
     title: `Blogga | My profile`,
     sessUser: req.session.user,
-    friends: usersFriends,
-    posts: postList
+    friends: user.meta.friendsList,
+    posts: postList,
   });
 });
 // todo check whether user is already followed
@@ -336,19 +326,22 @@ app.post("/addfriend", async (req, res) => {
   try {
     const resp = await User.findOne({ user: req.body.user });
     if (resp === null) {
-      res.status(404).json({ messages: ["User not found." ], fields:[``]});
+      res.status(404).json({ messages: ["User not found."], fields: [``] });
     } else if (resp.user === req.session.user) {
-      res.status(401).json({ messages: [`Can't follow yourself.`], fields:[``] });
+      res
+        .status(401)
+        .json({ messages: [`Can't follow yourself.`], fields: [``] });
     } else if (resp.user) {
       const ans = await User.findOneAndUpdate(
         { user: req.session.user },
         { $addToSet: { "meta.friendsList": resp._id } }
       );
-      res.json({ messages: ["Author followed successfully."], fields:[``] });
+      res.json({ messages: ["Author followed successfully."], fields: [``] });
     } else {
-      res
-        .status(500)
-        .json({ messages: ["Something went wrong, try again later."],  fields:[''] });
+      res.status(500).json({
+        messages: ["Something went wrong, try again later."],
+        fields: [""],
+      });
     }
   } catch (error) {
     console.log(error.message);
@@ -364,10 +357,9 @@ app.delete("/post", async (req, res) => {
   }
 });
 app.post("/createpost", async (req, res, next) => {
-
   if (req.session.user) {
     try {
-    const resp =  await Post.create({
+      const resp = await Post.create({
         title: req.body.title,
         paragraph1: req.body.paragraph1,
         paragraph2: req.body.paragraph2,
@@ -376,12 +368,10 @@ app.post("/createpost", async (req, res, next) => {
         img2: req.body.img2,
         meta: {
           author: req.session.userId.toString().slice(0),
-          postedOn: Date.now()
+          postedOn: Date.now(),
         },
-    
       });
-      if(resp)
-      res.status(201).json({ messages: [`Posted successfully!`] });
+      if (resp) res.status(201).json({ messages: [`Posted successfully!`] });
     } catch (error) {
       next(error);
     }
@@ -409,7 +399,6 @@ app.get("/logout", async (req, res) => {
   });
 });
 app.post("/changepass", async (req, res, next) => {
-
   let resp;
   try {
     resp = await User.findOneAndUpdate(
@@ -421,7 +410,10 @@ app.post("/changepass", async (req, res, next) => {
     if (resp) {
       res.json({ messages: `Success!` });
     } else if (!resp) {
-      res.status(404).json({ messages: [`Please enter your current password.`], fields:['password'] });
+      res.status(404).json({
+        messages: [`Please enter your current password.`],
+        fields: ["password"],
+      });
     }
   } catch (error) {
     console.log(error.errors);

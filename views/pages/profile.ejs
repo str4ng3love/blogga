@@ -48,7 +48,7 @@
           <% } else { %> <% friends.forEach(friend => { %>
           <div class="list-item">
             <div class="content">
-              <a class="link" href="/user/<%= friend %>"><%= friend %></a>
+              <a class="link" href="/user/<%= friend.user %>"><%= friend.user %></a>
             </div>
 
             <div class="tool-box centered">

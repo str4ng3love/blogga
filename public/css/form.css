@@ -7,7 +7,7 @@
   align-items: center;
   backdrop-filter: blur(5px);
   background-color: var(--colorMainAlpha50);
-  z-index: 500;
+  z-index: 1000500;
 }
 .btn_container {
   display: flex;
@@ -53,8 +53,7 @@ form, .list-container  {
   border-radius: 5px;
   transition: opacity 300ms ease;
 }
-.fields > button,
-a {
+.fields > button,.fields > a {
   margin-top: 1rem;
   font-weight: bold;
   text-align: center;

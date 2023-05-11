@@ -18,7 +18,7 @@
   --footerH: 5rem;
   --wrapperH: calc(100vh - calc(var(--footerH) + var(--headerH)));
   --boxShadow: 0 0 1rem var(--colorMain);
-  --transition: all 200ms ease-in;
+  --transition: all 150ms ease-in;
 }
 * {
   padding: 0;
@@ -34,6 +34,9 @@ html,
 body {
   min-width: 350px;
   background-color: var(--colorBackground);
+}
+.overflowY-hidden {
+  overflow-y: hidden;
 }
 h1,
 h2,

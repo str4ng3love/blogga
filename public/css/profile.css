@@ -22,9 +22,9 @@ div.profile-item {
   padding: 1.5rem;
   width: 100%;
   border-radius: 5px;
+  transition:  var(--transition);
 }
 .content {
-
   display: flex;
   justify-content: space-between;
   align-self: center;
@@ -78,6 +78,7 @@ div.profile-item {
 .unfollow {
   background-color: var(--colorErr);
   font-weight: bold;
+  padding: 0.5rem;
 }
 .del-post:hover,
 .del-post:active,
@@ -86,12 +87,16 @@ div.profile-item {
   background-color: red;
   box-shadow: 0rem 0rem 1rem red;
 }
-.edit-post {
+.edit-post,
+.follow {
   background-color: var(--color3);
   font-weight: bold;
+  padding: 0.5rem;
 }
 .edit-post:hover,
-.edit-post:active {
+.edit-post:active,
+.follow:hover,
+.follow:active {
   background-color: var(--colorHover);
   box-shadow: 0rem 0rem 1rem var(--colorHover);
 }
@@ -116,7 +121,6 @@ div.profile-item {
   }
 }
 @media screen and (min-width: 1080px) {
-
   div.profile-item {
     padding: 2rem;
   }

@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('../partials/head'); -%>
-</head>
-<body>
-  <%- include('../partials/header'); -%>
-  <h3 class="heading_middle ">User List</h3>
-  <section class="grid-container">
-  <% users.forEach(user => { %>
-    <div class="grid_item">
-      <span><%= user.user %></span>
-      <span>Joined: <%= user.born.toString().slice(0, 24) %></span>
-      <!-- fix adding posts array in user model -->
-      <span><%= user.user %></span>
-    </div>
- <% }) %>
- 
-  
-  </section>
-</body>
-<script  src="/static/script.js" type="module" defer></script>
+  </head>
+  <body>
+    <%- include('../partials/header'); -%>
+    <h3 class="heading_middle">User List</h3>
+    <section class="grid-container">
+      <% users.forEach(user => { %>
 
+      <div class="grid_item">
+        <a class="user" href="/user/<%= user.user %>">
+          <span><%= user.user %></span>
+        </a>
+        <div class="tool-box">
+          <% if(user.displayBefriend === true){%>
+          <span class="follow befriend">Follow</span>
+          <% } else { %>
+          <span class="unfollow del-friend">Unfollow</span>
+          <% } %>
+        </div>
+
+        <!-- fix adding posts array in user model -->
+      </div>
+
+      <% }) %>
+    </section>
+  </body>
+  <script src="/static/script.js" type="module" defer></script>
 </html>
