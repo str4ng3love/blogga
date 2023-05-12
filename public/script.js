@@ -70,9 +70,8 @@ if (toggleMenuBtn) {
   toggleMenuBtn.addEventListener("click", (e) => {
     window.scroll({ left: 0, top: 0, behavior: "smooth" });
 
-    const menu = document.getElementsByClassName("menu");
-
-    if (menu[0].clientHeight === 0) {
+    const checker = document.getElementById("hamburger");
+    if (!checker.checked) {
       document.body.classList.add("overflowY-hidden");
     } else {
       document.body.classList.remove("overflowY-hidden");
@@ -80,12 +79,22 @@ if (toggleMenuBtn) {
   });
 }
 const CheckMenuHeightAfterRefresh = () => {
-  const menu = document.getElementsByClassName("menu");
+  const checker = document.getElementById("hamburger");
 
-  if (menu[0].clientHeight > 0) {
+  console.log(checker.checked);
+  if (checker.checked && window.innerWidth < 840) {
     document.body.classList.add("overflowY-hidden");
   } else {
     document.body.classList.remove("overflowY-hidden");
   }
 };
 CheckMenuHeightAfterRefresh();
+window.addEventListener('resize', (e)=>{
+  const checker = document.getElementById("hamburger");
+  console.log(checker.checked)
+  if(e.target.innerWidth < 840 && checker.checked){
+    document.body.classList.add("overflowY-hidden")
+  } else {
+    document.body.classList.remove("overflowY-hidden")
+  }
+})

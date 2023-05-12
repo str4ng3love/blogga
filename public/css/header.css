@@ -29,7 +29,7 @@ transform: translateX(-100%);
   background-color: var(--colorMain);
   padding: 1rem;
 }
-.menu {
+div.menu {
   z-index: 10000;
   position: absolute;
   top: 0;
@@ -44,6 +44,7 @@ transform: translateX(-100%);
   overflow: hidden;
   transition: height 150ms ease-in;
 }
+
 .menu-button,
 .menu-button::before,
 .menu-button::after {
@@ -89,8 +90,8 @@ transform: translateX(-100%);
   #menu-button-container {
     display: none;
   }
-  nav.header div.menu {
-    height: auto;
+div.menu {
+    height: auto !important;
     flex-direction: row;
     justify-content: space-between;
     position: relative;
@@ -105,7 +106,7 @@ transform: translateX(-100%);
 
 }
 @media screen and (min-width: 1020px) {
-    .menu {
+    div.menu {
         justify-content: space-around;
     }
 }
