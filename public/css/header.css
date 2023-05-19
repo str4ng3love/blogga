@@ -40,7 +40,7 @@ div.menu {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--colorMainAlpha50);
+  background-color: var(--colorMainAlpha);
   overflow: hidden;
   transition: height 150ms ease-in;
 }
@@ -85,6 +85,7 @@ div.menu {
   line-height: 1.6rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 2rem;
 }
 @media screen and (min-width: 840px) {
   #menu-button-container {
@@ -109,4 +110,9 @@ div.menu {
     div.menu {
         justify-content: space-around;
     }
+}
+@media screen and (min-width: 840px) {
+  .welcome {
+    font-size: 1rem;
+  }
 }

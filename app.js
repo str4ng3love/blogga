@@ -125,26 +125,27 @@ app.get("/users", async (req, res) => {
     users = await User.find()
       .select("user createdAt meta.friendsList")
       .sort({ user: "asc" });
-    if (req.session.user) {
-      let currentUser = await User.findOne({ user: req.session.user }).select(
-        "user meta.friendsList"
-      );
-
-      for (let i = 0; i < users.length; i++) {
-        Object.assign(users[i], { displayBefriend: true });
-        if (currentUser.meta.friendsList.includes(users[i]._id)) {
-          users[i].displayBefriend = false;
-        }
-
-        if (users[i].user === currentUser.user) {
-          users.splice(i, 1);
-        }
+      if (req.session.user) {
+        let currentUser = await User.findOne({ user: req.session.user }).select(
+          "user meta.friendsList"
+        );
+    
+        for (let i = 0; i < users.length; i++) {
+          Object.assign(users[i], { displayBefriend: true });
+          if (currentUser.meta.friendsList.includes(users[i]._id)) {
+              users[i].displayBefriend = false;
+            }
+            if (users[i].user === currentUser.user) {
+              
+              users.splice(i, 0);
+            }
+       
+          }
       }
+    } catch (error) {
+      console.log(error.message);
     }
-  } catch (error) {
-    console.log(error.message);
-  }
-
+    // console.log(users)
   res.render("pages/users", {
     title: "Blogga | Users",
     sessUser: req.session.user,
@@ -152,20 +153,24 @@ app.get("/users", async (req, res) => {
   });
 });
 app.get("/user/:slug", async (req, res) => {
-  let currentUser;
   let user;
   let posts;
   try {
     user = await User.findOne({ user: req.params.slug }).select(
-      "user createdAt meta.lastVisited meta.friendsList"
-    );
+      "user createdAt meta.lastVisited"
+    ).populate({
+      path: "meta.friendsList",
+      options: { sort: { user: "asc" }, select: "user" },
+    });
+  
     if (req.session.user) {
-      currentUser = req.session.user;
-      user.displayBefriend = true;
-      for (let i = 0; i < user.meta.friendsList.length; i++) {
-        if (user.meta.friendsList[i].includes(currentUser)) {
-          return (user.displayBefriend = false);
-        }
+      let currentUser = await User.findOne({ user: req.session.user }).select(
+        "user meta.friendsList"
+      );
+
+      Object.assign(user, { displayBefriend: true });
+      if (currentUser.meta.friendsList.includes(user._id)) {
+        user.displayBefriend = false;
       }
     }
   } catch (error) {
@@ -173,13 +178,13 @@ app.get("/user/:slug", async (req, res) => {
     res.status(500);
   }
   try {
-    posts = await Post.find({ "meta.author": user }).populate(
-      "meta.author",
-      "user"
-    );
+    posts = await Post.find({ "meta.author": user })
+      .select("title")
+      .populate("meta.author", "user");
   } catch (error) {
     console.log(error.message);
   }
+
   res.render("pages/user", {
     title: "Blogga | User Profile",
     sessUser: req.session.user,
@@ -188,16 +193,11 @@ app.get("/user/:slug", async (req, res) => {
   });
 });
 app.get("/posts", async (req, res) => {
-  let postList = [];
+  let posts
+  let count
   try {
-    let posts = await Post.find();
-    for (let i = 0; i < posts.length; i++) {
-      let postData = {
-        title: posts[i].title,
-        createdAt: posts[i].meta.postedOn,
-      };
-      postList.push(postData);
-    }
+     posts = await Post.find().limit(20).select('title meta.postedOn').populate("meta.author", "user")
+    count = await Post.find().count()
   } catch (error) {
     console.log(error);
   }
@@ -205,8 +205,21 @@ app.get("/posts", async (req, res) => {
   res.render("pages/posts", {
     title: "Blogga | Posts",
     sessUser: req.session.user,
-    posts: postList,
+    posts,
+    count
   });
+});
+app.get("/posts/:skip", async (req, res) => {
+  let posts
+
+  try {
+     posts = await Post.find().skip(req.params.skip).limit(20).select('title meta.postedOn').populate("meta.author", "user")
+  
+  } catch (error) {
+    console.log(error);
+  }
+
+  res.json(posts)
 });
 // todo: optimize route
 app.post("/getpost", async (req, res) => {
@@ -284,7 +297,7 @@ app.delete("/remove-friend", async (req, res) => {
       { user: req.session.user },
       { $pull: { "meta.friendsList": friend._id } }
     );
-  
+
     res.json({ messages: "Friend removed." });
   } catch (error) {
     console.log(error.message);
@@ -367,7 +380,7 @@ app.post("/createpost", async (req, res, next) => {
         img1: req.body.img1,
         img2: req.body.img2,
         meta: {
-          author: req.session.userId.toString().slice(0),
+          author: req.session.userId.toString(),
           postedOn: Date.now(),
         },
       });

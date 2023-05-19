@@ -13,6 +13,7 @@
         <a class="user" href="/user/<%= user.user %>">
           <span><%= user.user %></span>
         </a>
+        <% if(sessUser){ %>
         <div class="tool-box">
           <% if(user.displayBefriend === true){%>
           <span class="follow befriend">Follow</span>
@@ -20,7 +21,7 @@
           <span class="unfollow del-friend">Unfollow</span>
           <% } %>
         </div>
-
+        <% } %>
         <!-- fix adding posts array in user model -->
       </div>
 

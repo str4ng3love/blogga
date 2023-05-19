@@ -267,4 +267,42 @@ const handleEditPost = async (e, oldTitle)=>{
     }
 
 }
-  
+export const Pagination = async (e) => {
+    const skipAmount = parseInt(e.target.innerHTML.slice(0, 2)) -1
+
+    try {
+        const resp = await fetch(`/posts/${skipAmount}`)
+        const posts = await resp.json()
+
+        if(posts){
+            ReplaceContent(posts)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+const ReplaceContent = (content) => {
+    const postsContainer = document.getElementsByClassName('grid-container')
+    if(postsContainer[0]){
+        while(postsContainer[0].firstChild){
+            postsContainer[0].removeChild(postsContainer[0].firstChild)
+            
+        }
+    content.forEach(post =>{
+        const aTag = document.createElement('a')
+        const division = document.createElement('div')
+        const span1 = document.createElement('span')
+        const span2 = document.createElement('span')
+        const span3 = document.createElement('span')
+        span1.innerHTML = post.title
+        span2.innerHTML = `Posted on: ${post.meta.postedOn.toString().slice(0, 16)}`
+        span3.innerHTML = `by ${post.meta.author.user}`
+        division.classList.add('grid-item_posts')
+        division.append(span1, span2, span3)
+        aTag.append(division)
+        aTag.setAttribute('href', '#')
+        postsContainer[0].append(aTag)
+    })
+
+}
+}

@@ -1,14 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('../partials/head'); -%>
-</head>
-<body>
-  <%- include('../partials/header'); -%>
-  <section>
-    <!-- todo markup user page -->
-  </section>
-</body>
-<script  src="/static/script.js" type="module"></script>
+  </head>
+  <body>
+    <%- include('../partials/header'); -%>
+    <section class="container">
+    <div><h3 class="heading_middle"><%= user.user %></h3></div>
+    <% if(sessUser && sessUser!== user.user){ %>
 
+    
+    <div class="tool-box">
+      <% if(user.displayBefriend === true){%>
+      <span class="follow befriend">Follow</span>
+      <% } else { %>
+      <span class="unfollow del-friend">Unfollow</span>
+      <% } %>
+      <% } %>
+    </div>
+    <div class="user-container">
+
+      <div class="user-panel">
+        <h4 class="heading_small">Stats</h4>
+        <div class="stats">
+          <span
+            >Account created : <%= user.createdAt.toString().slice(0, 15)
+            %></span
+          >
+          <span>Posts : <%= posts.length %></span>
+          <span>Authors followed : <%= user.meta.friendsList.length %></span>
+        </div>
+      </div>
+      <div class="user-generated">
+        <div class="user-posts">
+          <h5 class="heading_small">Posts:</h5>
+          <div class="list">
+            <% if(posts.length > 0) { %> <%posts.forEach( post => { %>
+            <a class="link" href="#"><%= post.title%></a>
+            <%}) %> <% } else {%>
+              <h6>Nothing posted yet</h6>
+              <% }%>
+          </div>
+        </div>
+        <div class="user-followed">
+          <h5 class="heading_small">Authors followed:</h5>
+          <div class="list">
+            <% if(user.meta.friendsList.length > 0) { %> <%user.meta.friendsList.forEach( friend => { %>
+            <a class="link" href="/user/<%=friend.user%>"><%= friend.user%></a>
+            <%}) %> <% } else {%>
+              <h6>No authors followed yet</h6>
+              <% }%>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+  </body>
+  <script src="/static/script.js" type="module"></script>
 </html>

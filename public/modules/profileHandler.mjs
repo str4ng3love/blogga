@@ -39,7 +39,7 @@ export const AddFriend = (e) => {
   box2.setAttribute("class", "fields");
   heading.innerHTML = "Find and follow an author.";
   heading.setAttribute("id", "follow-author-heading");
-  input.setAttribute('name', 'username')
+  input.setAttribute("name", "username");
   label.innerHTML = "Enter user name: ";
   btn.innerHTML = "ADD";
   btn.setAttribute("class", "button");
@@ -63,7 +63,10 @@ const HandleAddFriend = async (e) => {
   let user = e.target.parentElement.children[1].value;
 
   if (user.length === 0) {
-    let message = {messages: `Please provide an username`, fields: ["username"]};
+    let message = {
+      messages: `Please provide an username`,
+      fields: ["username"],
+    };
     return ErrorHandler(message);
   } else {
     try {
@@ -102,9 +105,8 @@ const AFErrorHandler = (msg) => {
 };
 
 export const Befriend = async (e) => {
-
   const user = e.target.parentElement.parentElement.children[0].innerText;
-
+  console.log(user);
 
   try {
     const resp = await fetch("/addfriend", {
@@ -116,14 +118,13 @@ export const Befriend = async (e) => {
     });
     let message = await resp.json();
 
-    if(message.messages[0].includes('success')){
-      location.reload()
+    if (message.messages[0].includes("success")) {
+      location.reload();
     }
   } catch (error) {
     console.log(error.message);
   }
 };
-
 
 export const ChangePass = async (e) => {
   e.preventDefault();
@@ -173,10 +174,10 @@ export const ChangePass = async (e) => {
 };
 
 export const DeleteFriend = async (e) => {
+  console.log(e.target);
   const par = e.target.parentElement.parentElement;
   const target = par.children[0].children[0].innerHTML;
-
-
+  console.log(target)
   try {
     const resp = await fetch("/remove-friend", {
       method: "DELETE",

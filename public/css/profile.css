@@ -18,6 +18,8 @@ div.profile-item {
   justify-content: space-between;
 }
 .link {
+  font-weight: bold;
+  text-align: center;
   margin: 0;
   padding: 1.5rem;
   width: 100%;
@@ -33,9 +35,6 @@ div.profile-item {
   transition: var(--transition);
   min-width: 30ch;
   cursor: pointer;
-}
-.content > a > span:nth-child(2) {
-  display: none;
 }
 .tool-box {
   display: flex;
@@ -63,8 +62,8 @@ div.profile-item {
 .inline {
   flex-direction: row;
 }
-.content > a:hover,
-.content > a:active {
+.link:hover,
+.link:active {
   background-color: var(--colorHover);
   box-shadow: 0rem 0rem 1rem var(--colorHover);
 }

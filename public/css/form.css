@@ -3,10 +3,10 @@
   min-width: 100%;
   min-height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content:  center;
   align-items: center;
   backdrop-filter: blur(5px);
-  background-color: var(--colorMainAlpha50);
+  background-color: var(--colorMainAlpha);
   z-index: 1000500;
 }
 .btn_container {
@@ -80,4 +80,14 @@ form, .list-container  {
   border-radius: 5px;
   border: 2px solid red;
   font-weight: bold;
+}
+@media screen and (min-width: 800px) {
+  .form-container {
+    display: flex;
+  }
+  .post-form {
+    max-width: 100%;
+    max-height: 90vh;
+    max-height: 90dvh;
+  };
 }

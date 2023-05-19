@@ -19,6 +19,8 @@ const delFriendBtnsArray = Array.from(delFriendBtns);
 const makeFriendBtns = document.getElementsByClassName("befriend");
 const makeFriendBtnsArray = Array.from(makeFriendBtns);
 const toggleMenuBtn = document.getElementById("menu-button-container");
+const postLinks = document.getElementsByClassName('pagination_range')
+const postLinksArray = Array.from(postLinks)
 
 const GetAuthor = async () => {
   let name = author.textContent;
@@ -78,10 +80,15 @@ if (toggleMenuBtn) {
     }
   });
 }
+if(postLinksArray) {
+  postLinksArray.forEach((link) => {
+    link.addEventListener('click', (e)=> pH.Pagination(e))
+  })
+}
 const CheckMenuHeightAfterRefresh = () => {
   const checker = document.getElementById("hamburger");
 
-  console.log(checker.checked);
+
   if (checker.checked && window.innerWidth < 840) {
     document.body.classList.add("overflowY-hidden");
   } else {
@@ -91,7 +98,7 @@ const CheckMenuHeightAfterRefresh = () => {
 CheckMenuHeightAfterRefresh();
 window.addEventListener('resize', (e)=>{
   const checker = document.getElementById("hamburger");
-  console.log(checker.checked)
+
   if(e.target.innerWidth < 840 && checker.checked){
     document.body.classList.add("overflowY-hidden")
   } else {
