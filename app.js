@@ -125,27 +125,25 @@ app.get("/users", async (req, res) => {
     users = await User.find()
       .select("user createdAt meta.friendsList")
       .sort({ user: "asc" });
-      if (req.session.user) {
-        let currentUser = await User.findOne({ user: req.session.user }).select(
-          "user meta.friendsList"
-        );
-    
-        for (let i = 0; i < users.length; i++) {
-          Object.assign(users[i], { displayBefriend: true });
-          if (currentUser.meta.friendsList.includes(users[i]._id)) {
-              users[i].displayBefriend = false;
-            }
-            if (users[i].user === currentUser.user) {
-              
-              users.splice(i, 0);
-            }
-       
-          }
+    if (req.session.user) {
+      let currentUser = await User.findOne({ user: req.session.user }).select(
+        "user meta.friendsList"
+      );
+
+      for (let i = 0; i < users.length; i++) {
+        Object.assign(users[i], { displayBefriend: true });
+        if (currentUser.meta.friendsList.includes(users[i]._id)) {
+          users[i].displayBefriend = false;
+        }
+        if (users[i].user === currentUser.user) {
+          users.splice(i, 0);
+        }
       }
-    } catch (error) {
-      console.log(error.message);
     }
-    // console.log(users)
+  } catch (error) {
+    console.log(error.message);
+  }
+  // console.log(users)
   res.render("pages/users", {
     title: "Blogga | Users",
     sessUser: req.session.user,
@@ -156,13 +154,13 @@ app.get("/user/:slug", async (req, res) => {
   let user;
   let posts;
   try {
-    user = await User.findOne({ user: req.params.slug }).select(
-      "user createdAt meta.lastVisited"
-    ).populate({
-      path: "meta.friendsList",
-      options: { sort: { user: "asc" }, select: "user" },
-    });
-  
+    user = await User.findOne({ user: req.params.slug })
+      .select("user createdAt meta.lastVisited")
+      .populate({
+        path: "meta.friendsList",
+        options: { sort: { user: "asc" }, select: "user" },
+      });
+
     if (req.session.user) {
       let currentUser = await User.findOne({ user: req.session.user }).select(
         "user meta.friendsList"
@@ -193,11 +191,32 @@ app.get("/user/:slug", async (req, res) => {
   });
 });
 app.get("/posts", async (req, res) => {
-  let posts
-  let count
+  let posts;
+  let count;
   try {
-     posts = await Post.find().limit(20).select('title meta.postedOn').populate("meta.author", "user")
-    count = await Post.find().count()
+    //  posts = await Post.find().limit(20).select('title meta.postedOn').populate("meta.author", "user")
+    posts = await Post.aggregate([
+      { $sort: { "meta.postedOn": 1 } },
+      { $limit: 20 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "meta.author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          "meta.postedOn": 1,
+          "meta.author": 1,
+          "author.user": 1,
+        },
+      },
+    ]);
+
+    count = await Post.find().count();
   } catch (error) {
     console.log(error);
   }
@@ -206,20 +225,44 @@ app.get("/posts", async (req, res) => {
     title: "Blogga | Posts",
     sessUser: req.session.user,
     posts,
-    count
+    count,
   });
 });
-app.get("/posts/:skip", async (req, res) => {
-  let posts
+app.post("/posts/:skip", async (req, res) => {
+  let posts;
 
   try {
-     posts = await Post.find().skip(req.params.skip).limit(20).select('title meta.postedOn').populate("meta.author", "user")
-  
+// TODO: sorting by 'author' 
+    posts = await Post.aggregate([
+      { $skip: parseInt(req.params.skip) },
+      { $limit: 20 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "meta.author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+      { $sort: { "author[0].user": -1} },
+      {
+        $project: {
+          title: 1,
+          "meta.postedOn": 1,
+          "meta.author": 1,
+          "author.user": 1,
+        },
+      },
+    ]);
+    for (let i =0; i< posts.length; i++){
+      console.log(posts[i].author[0].user)
+    }
+    //  posts = await Post.find().sort({title: 'asc'}).skip(req.params.skip).limit(20).select('title meta.postedOn').populate("meta.author", "user")
   } catch (error) {
     console.log(error);
   }
 
-  res.json(posts)
+  res.json(posts);
 });
 // todo: optimize route
 app.post("/getpost", async (req, res) => {

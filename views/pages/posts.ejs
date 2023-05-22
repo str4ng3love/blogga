@@ -6,39 +6,49 @@
   <body>
     <%- include('../partials/header'); -%>
     <section class="posts-container">
-        <h4 class="heading_middle">Posts</h4>
-      <div class="post_sorting">
+      <h4 class="heading_middle">Posts</h4>
+      <form class="post_sorting">
         <h6 class="heading_small">Sort by:</h6>
-        <div class="tool-box">
-            <a class="link" href="#">Author</a>
-            <a  class="link" href="#">Date added</a>
-            <a class="link" href="#">Title</a>
-        </div>
-      </div>
+        <fieldset class="tool-box">
+          <div class="radio-container">
+            <input type="radio" id="date-sort" name="sort" value="meta.postedOn" checked/>
+            <label for="date-sort">Date</label>
+          </div>
+          <div class="radio-container">
+            <input type="radio" id="author-sort" name="sort" value="author" />
+            <label for="author-sort">Author</label>
+          </div>
+          <div class="radio-container">
+            <input type="radio" id="title-sort" name="sort" value="title" />
+            <label for="title-sort">Title</label>
+          </div>
+        </fieldset>
+      </form>
       <div class="grid-container">
         <% if(posts.length > 0) { %> <%posts.forEach(post => { %>
 
-            <a href="#">
-        <div class="grid-item_posts">
+        <a href="#">
+          <div class="grid-item_posts">
             <span><%= post.title %></span>
-            <span>Posted on: <%= post.meta.postedOn.toString().slice(0, 16) %></span>
-            <span>by <%= post.meta.author.user %></span>
-        </div>
-    </a>
+            <span
+              >Posted on: <%= post.meta.postedOn.toDateString()
+              %></span
+            >
+            <span>by <%= post.author[0].user %></span>
+          </div>
+        </a>
 
         <% }) %> <% } else { %>
         <h6>Nothing posted yet</h6>
         <% } %>
       </div>
       <div class="pagination-panel">
-          <div>
-      <% if(count >= 20) { %>
-        <% for(let i = 0; i < count; i = i+20) { %>
-                    <span class="pagination_range"><%= i+1 %> - <%= i+20%> </span>
-                    <%} %>
-                    <% }  %>
-                </div>
-            </div>
+        <div>
+          <% if(count >= 20) { %> <% for(let i = 0; i < count; i = i+20) { %>
+          <span class="pagination_range"><%= i+1 %> - <%= i+20%> </span>
+          <%} %> <% } %>
+        </div>
+      </div>
     </section>
   </body>
   <script src="/static/script.js" type="module" defer></script>
