@@ -22,7 +22,6 @@ const toggleMenuBtn = document.getElementById("menu-button-container");
 const postLinks = document.getElementsByClassName('pagination_range')
 const postLinksArray = Array.from(postLinks)
 const dateSort = document.getElementById('date-sort')
-const authorSort = document.getElementById('author-sort')
 const titleSort = document.getElementById('title-sort')
 const GetAuthor = async () => {
   let name = author.textContent;
@@ -84,17 +83,14 @@ if (toggleMenuBtn) {
 }
 if(postLinksArray) {
   postLinksArray.forEach((link) => {
-    link.addEventListener('click', (e)=> pH.Pagination(e))
+    link.addEventListener('click', (e)=> pH.GetPosts(e))
   })
 }
 if(dateSort){
-  dateSort.addEventListener('click', (e)=> pH.SortPosts(e))
-}
-if(authorSort){
-  authorSort.addEventListener('click', (e)=> pH.SortPosts(e))
+  dateSort.addEventListener('click', (e)=> pH.GetPosts(e))
 }
 if(titleSort){
-  titleSort.addEventListener('click', (e)=> pH.SortPosts(e))
+  titleSort.addEventListener('click', (e)=> pH.GetPosts(e))
 }
 const CheckMenuHeightAfterRefresh = () => {
   const checker = document.getElementById("hamburger");

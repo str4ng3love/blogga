@@ -233,31 +233,12 @@ app.post("/posts/:skip", async (req, res) => {
 
   try {
 // TODO: sorting by 'author' 
-    posts = await Post.aggregate([
-      { $skip: parseInt(req.params.skip) },
-      { $limit: 20 },
-      {
-        $lookup: {
-          from: "users",
-          localField: "meta.author",
-          foreignField: "_id",
-          as: "author",
-        },
-      },
-      { $sort: { "author[0].user": -1} },
-      {
-        $project: {
-          title: 1,
-          "meta.postedOn": 1,
-          "meta.author": 1,
-          "author.user": 1,
-        },
-      },
-    ]);
-    for (let i =0; i< posts.length; i++){
-      console.log(posts[i].author[0].user)
-    }
-    //  posts = await Post.find().sort({title: 'asc'}).skip(req.params.skip).limit(20).select('title meta.postedOn').populate("meta.author", "user")
+if(req.body.sort === 'title'){
+  posts = await Post.find().sort({title: 'asc'}).skip(req.params.skip).limit(20).select('title meta.postedOn').populate("meta.author", "user")
+  } else if(req.body.sort === 'meta.postedOn'){
+    posts = await Post.find().sort({'meta.postedOn': 'asc'}).skip(req.params.skip).limit(20).select('title meta.postedOn').populate("meta.author", "user")
+  } 
+  
   } catch (error) {
     console.log(error);
   }

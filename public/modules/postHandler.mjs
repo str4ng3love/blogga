@@ -253,14 +253,23 @@ const handleEditPost = async (e, oldTitle) => {
     console.log(error);
   }
 };
-export const Pagination = async (e) => {
-  const skipAmount = parseInt(e.target.innerHTML.slice(0, 2)) - 1;
+export const GetPosts = async (e) => {
+
+  let skipAmount
+  if(e.target.innerHTML.length===0){
+    skipAmount = 0
+  } else {
+    skipAmount = parseInt(e.target.innerHTML.slice(0, 2)) - 1;
+
+  }
+ 
   const inputs = document.getElementsByTagName("input");
   let sortBy;
   for (let i = 0; i < inputs.length; i++) {
     if (inputs[i].type === "radio" && inputs[i].checked)
     sortBy = inputs[i].value;
 }   
+
 try {
     const resp = await fetch(`/posts/${skipAmount}`, {
         method: 'POST',
@@ -294,7 +303,7 @@ const ReplaceContent = (content) => {
       let date = new Date(post.meta.postedOn)
       span1.innerHTML = post.title;
       span2.innerHTML = `Posted on: ${date.toString().slice(0, 16)}`;
-      span3.innerHTML = `by ${post.author[0].user}`;
+      span3.innerHTML = `by ${post.meta.author.user}`;
       division.classList.add("grid-item_posts");
       division.append(span1, span2, span3);
       aTag.append(division);
@@ -304,7 +313,3 @@ const ReplaceContent = (content) => {
   }
 };
 
-export const SortPosts = async (e) => {
-  const sortMethod = e.target.checked;
-  console.log(sortMethod);
-};
