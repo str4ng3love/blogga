@@ -1,0 +1,29 @@
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: calc(1.5 * var(--footerH));
+    background-color: var(--colorMain);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0rem 0rem 1rem var(--colorMain);
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0rem 1rem;
+
+}
+
+@media screen and (min-width: 800px) {
+    footer {
+ 
+        justify-content: space-around;
+    }
+    .footer-container {
+        margin: 0rem 0rem;
+    }
+}

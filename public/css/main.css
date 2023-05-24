@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
 @import url(header.css);
+@import url(footer.css);
 @import url(users.css);
 @import url(form.css);
 @import url(user.css);
@@ -18,7 +19,7 @@
   --color3: #7898b5;
   --colorErr: rgba(186, 51, 51, 0.693);
   --headerH: 5.5rem;
-  --footerH: 5rem;
+  --footerH: 12rem;
   --wrapperH: calc(100vh - calc(var(--footerH) + var(--headerH)));
   --boxShadow: 0 0 1rem var(--colorMain);
   --transition: all 150ms ease-in;
@@ -33,10 +34,17 @@
   color: var(--colorText);
   list-style: none;
 }
-html,
+html {
+  height: 100%;
+}
 body {
+  position: relative;
   min-width: 350px;
   background-color: var(--colorBackground);
+  min-height: 100%;
+}
+body > *:nth-last-child(3) {
+  padding-bottom: calc(2 * var(--footerH));
 }
 .overflowY-hidden {
   overflow-y: hidden;
