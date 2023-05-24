@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); -%>
+</head>
+<body>
+  <%- include('../partials/header'); -%>
+  <h2 class="heading_middle"><%= post.title %> </h2>
+  <section>
+    <div class="meta">
+        <span>Posted on : <%= post.meta.postedOn.toDateString()%></span>
+        <a class="button-secondary" href="/user/<%= post.meta.author.user %>">By: <%= post.meta.author.user %></a>
+    </div>
+    <div class="post">
+        <p><%= post.paragraph1 %></p>
+        <img src="<%= post.img1 %>" alt="">
+        <p><%= post.paragraph2 %></p>
+        <img src="<%= post.img2 %>" alt="">
+        <p><%= post.paragraph3 %></p>
+    </div>
+  </section>
+</body>
+<script  src="/static/script.js" type="module" defer></script>
+
+</html>

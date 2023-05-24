@@ -24,7 +24,7 @@
       <div class="grid-container">
         <% if(posts.length > 0) { %> <%posts.forEach(post => { %>
 
-        <a href="#">
+        <a href="/post/<%= post.title %>">
           <div class="grid-item_posts">
             <span><%= post.title %></span>
             <span

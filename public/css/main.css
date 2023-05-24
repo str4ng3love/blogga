@@ -4,6 +4,7 @@
 @import url(form.css);
 @import url(user.css);
 @import url(posts.css);
+@import url(post.css);
 @import url(profile.css);
 :root {
   --colorMain: rgb(20, 20, 20);

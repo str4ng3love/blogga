@@ -307,7 +307,7 @@ const ReplaceContent = (content) => {
       division.classList.add("grid-item_posts");
       division.append(span1, span2, span3);
       aTag.append(division);
-      aTag.setAttribute("href", "#");
+      aTag.setAttribute("href", "/post/"+post.title);
       postsContainer[0].append(aTag);
     });
   }

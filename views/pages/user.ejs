@@ -36,7 +36,7 @@
           <h5 class="heading_small">Posts:</h5>
           <div class="list">
             <% if(posts.length > 0) { %> <%posts.forEach( post => { %>
-            <a class="link" href="#"><%= post.title%></a>
+            <a class="link" href="/post/<%= post.title %>"><%= post.title%></a>
             <%}) %> <% } else {%>
               <h6>Nothing posted yet</h6>
               <% }%>

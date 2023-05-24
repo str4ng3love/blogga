@@ -184,7 +184,7 @@ app.get("/user/:slug", async (req, res) => {
   }
 
   res.render("pages/user", {
-    title: "Blogga | User Profile",
+    title: `Blogga | ${user.user} Profile`,
     sessUser: req.session.user,
     user: user,
     posts: posts,
@@ -257,17 +257,18 @@ app.post("/getpost", async (req, res) => {
   }
 });
 
-app.get("/post:id", async (req, res) => {
+app.get("/post/:slug", async (req, res) => {
   let postData;
 
   try {
-    postData = await Post.findOne({ title: req.params.id });
+    postData = await Post.findOne({ title: req.params.slug }).populate("meta.author", "user");
+
   } catch (error) {
     console.log(error.message);
   }
   res.render("pages/post", {
     sessUser: req.session.user,
-    title: `Blogga | ${postData.title}`,
+    title: `Blogga | ${[postData.title]}`,
     post: postData,
   });
 });
