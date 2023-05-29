@@ -2,7 +2,7 @@ import { ErrorHandler } from "./formHandler.mjs";
 
 export const DeletePost = async (e) => {
   const par = e.target.parentElement.parentElement;
-  const title = par.children[0].children[0].innerHTML;
+  const title = par.children[0].children[0].textContent.trim();
 
   try {
     const resp = await fetch("/post", {

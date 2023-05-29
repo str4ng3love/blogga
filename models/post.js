@@ -5,13 +5,15 @@ const Schema = mongoose.Schema
 const postSchema = new Schema({
     title: {
         type: String,
+        unique: [true, 'Title in use.'],
         required: [true, `Title is required.`],
         minlength: [6, `Title must be at least 6 characters long.`],
         maxlength: [50, `Title must not exceed 50 characters.`]
+      
     },
     paragraph1: {
         type: String,
-        required: [true, `Post must contain at least 1 paragraph.`],
+        required: [true, `Post must contain first paragraph.`],
         minlength: [10, `Paragraph is too short.`],
         maxlength: [2500, `Must not exceed 2500 characters.`]
     },

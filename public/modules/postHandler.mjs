@@ -83,7 +83,8 @@ const handleCreatePost = async (e) => {
 
   const input = Array.from(e.target.parentElement.previousSibling.children);
   input.forEach((el) => {
-    data.push(el.children[1].value);
+
+    data.push(el.children[1].value.trim());
   });
 
   post = {
@@ -179,7 +180,8 @@ export const EditPost = async (e) => {
   document.body.insertAdjacentElement("afterbegin", container);
 
   let title =
-    e.target.parentElement.parentElement.children[0].children[0].textContent;
+    e.target.parentElement.parentElement.children[0].children[0].textContent.trim();
+ 
 
   try {
     let resp = await fetch("/getpost", {
@@ -189,7 +191,6 @@ export const EditPost = async (e) => {
       },
       body: JSON.stringify({ title }),
     });
-
     let data = await resp.json();
     let post = data.data;
     inputTitle.value = post.title;

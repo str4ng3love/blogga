@@ -36,16 +36,16 @@
         </a>
 
         <% }) %> <% } else { %>
-        <h6>Nothing posted yet</h6>
+        <h6 class="heading_small">Nothing posted yet</h6>
         <% } %>
       </div>
+      <% if(count >= 20) { %> <% for(let i = 0; i < count; i = i+20) { %>
       <div class="pagination-panel">
         <div>
-          <% if(count >= 20) { %> <% for(let i = 0; i < count; i = i+20) { %>
           <span class="pagination_range"><%= i+1 %> - <%= i+20%> </span>
-          <%} %> <% } %>
         </div>
       </div>
+      <%} %> <% } %>
     </section>
     <%- include('../partials/footer'); %>
   </body>

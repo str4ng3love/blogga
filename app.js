@@ -159,7 +159,7 @@ app.get("/users", async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-  // console.log(users)
+
   res.render("pages/users", {
     title: "Blogga | Users",
     sessUser: req.session.user,
@@ -193,8 +193,8 @@ app.get("/user/:slug", async (req, res) => {
   }
   try {
     posts = await Post.find({ "meta.author": user })
-      .select("title")
-      .populate("meta.author", "user");
+      .select("title").sort({"meta.postedOn": "desc"}) .populate("meta.author", "user");
+     
   } catch (error) {
     console.log(error.message);
   }
@@ -270,8 +270,9 @@ app.post("/posts/:skip", async (req, res) => {
 
   res.json(posts);
 });
-// todo: optimize route
+
 app.post("/getpost", async (req, res) => {
+
   let post;
   try {
     post = await Post.findOne({ title: req.body.title });
@@ -293,11 +294,20 @@ app.get("/post/:slug", async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-  res.render("pages/post", {
-    sessUser: req.session.user,
-    title: `Blogga | ${[postData.title]}`,
-    post: postData,
-  });
+
+  if(postData == null){
+    res.render("pages/error", {
+      sessUser: req.session.user,
+      title: `Blogga | Error`,
+      message: 'Post not found'    });
+  } else {
+
+    res.render("pages/post", {
+      sessUser: req.session.user,
+      title: `Blogga | ${postData.title}`,
+      post: postData,
+    });
+  }
 });
 app.get("/about", (req, res) => {
   res.render("pages/about", {
@@ -308,6 +318,7 @@ app.get("/about", (req, res) => {
 
 app.get("*", userChecker);
 app.post("/editpost", async (req, res, next) => {
+
   try {
     let resp = await Post.findOneAndUpdate(
       { title: req.body.oldTitle },
@@ -334,28 +345,7 @@ app.post("/editpost", async (req, res, next) => {
   }
 });
 
-app.delete("/remove-friend", async (req, res) => {
-  let friend;
 
-  try {
-    friend = await User.findOne({ user: req.body.user });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ messages: error.message });
-  }
-
-  try {
-    const resp = await User.findOneAndUpdate(
-      { user: req.session.user },
-      { $pull: { "meta.friendsList": friend._id } }
-    );
-
-    res.json({ messages: "Friend removed." });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ messages: error.message });
-  }
-});
 app.get("/profile", async (req, res) => {
   let user = [];
   let postList = [];
@@ -364,6 +354,7 @@ app.get("/profile", async (req, res) => {
     let posts = await Post.aggregate([
       { $match: { "meta.author": req.session.userId } },
       { $project: { title: 1, "meta.postedOn": 1 } },
+      { $sort: {"meta.postedOn": -1}}
     ]);
     postList = posts;
   } catch (error) {
@@ -413,7 +404,30 @@ app.post("/addfriend", async (req, res) => {
     res.status(500).json({ messages: error.message });
   }
 });
+app.delete("/remove-friend", async (req, res) => {
+  let friend;
+
+  try {
+    friend = await User.findOne({ user: req.body.user });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ messages: error.message });
+  }
+
+  try {
+    const resp = await User.findOneAndUpdate(
+      { user: req.session.user },
+      { $pull: { "meta.friendsList": friend._id } }
+    );
+
+    res.json({ messages: "Friend removed." });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ messages: error.message });
+  }
+});
 app.delete("/post", async (req, res) => {
+  
   try {
     let resp = await Post.deleteOne({ title: req.body.title });
     res.json({ messages: resp });

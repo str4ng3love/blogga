@@ -164,9 +164,7 @@ const HandleRegister = async (e) => {
     let message = await resp.json();
 
     ErrorHandler(message);
-  } catch (error) {
-   
-  }
+  } catch (error) {}
 };
 
 export const ErrorHandler = (formMsg) => {
@@ -210,7 +208,6 @@ export const ErrorHandler = (formMsg) => {
       }
     }, 2000);
   } else {
-
     h.style.opacity = 0;
     setTimeout(() => {
       h.innerHTML = formMsg.messages;
@@ -218,10 +215,14 @@ export const ErrorHandler = (formMsg) => {
       h.style.opacity = 1;
     }, 300);
 
-    if(formMsg.fields > 0) {
+    if (formMsg.fields.length > 0) {
       formMsg.fields.forEach((field) => {
         let el = document.getElementsByName(field);
-        el[0].style.backgroundColor = "red";
+        let oldColor = el[0].style.backgroundColor
+        el[0].style.backgroundColor = 'rgba(186, 51, 51, 0.693)';
+        setInterval(()=>{
+          el[0].style.backgroundColor = oldColor
+        }, 5600)
       });
     }
 
@@ -231,10 +232,10 @@ export const ErrorHandler = (formMsg) => {
 const ReturnToNormal = (h, text) => {
   setTimeout(() => {
     h.style.opacity = 0;
-  }, 2000);
+  }, 5000);
   setTimeout(() => {
     h.innerHTML = text;
     h.style.backgroundColor = "inherit";
     h.style.opacity = 1;
-  }, 2600);
+  }, 5600);
 };
