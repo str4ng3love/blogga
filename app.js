@@ -7,6 +7,8 @@ const path = require("path");
 const session = require("express-session");
 const ConnectDB = require("./db/connect");
 const express = require("express");
+const { title } = require("process");
+const MailingList = require("./models/mailingList");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -51,7 +53,8 @@ app.use(express.json());
 app.get("/", async (req, res, next) => {
   const newestPosts = await Post.find()
     .sort({ "meta.postedOn": "descending" })
-    .limit(5);
+    .limit(3)
+    .select("title").populate("meta.author", "user");
   res.render("pages/index", {
     title: "Welcome to Blogga",
     sessUser: req.session.user,
@@ -118,6 +121,18 @@ app.post("/register", async (req, res, next) => {
       .json({ messages: [`Please retype your password`], fields: [`confirm`] });
   }
 });
+app.post("/newsletter", async (req, res, next) => {
+  const email = req.body.email
+let message
+  try {
+    const resp = await MailingList.create({email: email})
+    res.status(201).json({messages: [`Email added successfully`]})
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+
+})
 app.get("/users", async (req, res) => {
   let users;
 
@@ -131,12 +146,12 @@ app.get("/users", async (req, res) => {
       );
 
       for (let i = 0; i < users.length; i++) {
+        if (users[i].user === currentUser.user) {
+          users.splice(i, 1);
+        }
         Object.assign(users[i], { displayBefriend: true });
         if (currentUser.meta.friendsList.includes(users[i]._id)) {
           users[i].displayBefriend = false;
-        }
-        if (users[i].user === currentUser.user) {
-          users.splice(i, 0);
         }
       }
     }
@@ -196,7 +211,7 @@ app.get("/posts", async (req, res) => {
   try {
     //  posts = await Post.find().limit(20).select('title meta.postedOn').populate("meta.author", "user")
     posts = await Post.aggregate([
-      { $sort: { "meta.postedOn": 1 } },
+      { $sort: { "meta.postedOn": -1 } },
       { $limit: 20 },
       {
         $lookup: {
@@ -232,13 +247,22 @@ app.post("/posts/:skip", async (req, res) => {
   let posts;
 
   try {
-// TODO: sorting by 'author' 
-if(req.body.sort === 'title'){
-  posts = await Post.find().sort({title: 'asc'}).skip(req.params.skip).limit(20).select('title meta.postedOn').populate("meta.author", "user")
-  } else if(req.body.sort === 'meta.postedOn'){
-    posts = await Post.find().sort({'meta.postedOn': 'asc'}).skip(req.params.skip).limit(20).select('title meta.postedOn').populate("meta.author", "user")
-  } 
-  
+    // TODO: sorting by 'author'
+    if (req.body.sort === "title") {
+      posts = await Post.find()
+        .sort({ title: "asc" })
+        .skip(req.params.skip)
+        .limit(20)
+        .select("title meta.postedOn")
+        .populate("meta.author", "user");
+    } else if (req.body.sort === "meta.postedOn") {
+      posts = await Post.find()
+        .sort({ "meta.postedOn": "asc" })
+        .skip(req.params.skip)
+        .limit(20)
+        .select("title meta.postedOn")
+        .populate("meta.author", "user");
+    }
   } catch (error) {
     console.log(error);
   }
@@ -261,8 +285,10 @@ app.get("/post/:slug", async (req, res) => {
   let postData;
 
   try {
-    postData = await Post.findOne({ title: req.params.slug }).populate("meta.author", "user");
-
+    postData = await Post.findOne({ title: req.params.slug }).populate(
+      "meta.author",
+      "user"
+    );
   } catch (error) {
     console.log(error.message);
   }

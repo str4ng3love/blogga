@@ -1,0 +1,14 @@
+
+<% if(posts.length > 0){ %>
+    <div class="newest">
+    <h2 class="heading_small">Newest posts</h2>
+    <div class="posts">
+        <% posts.forEach(post => { %>
+            <div class="post-card">
+                <span><%= post.title %></span>
+                <span>by <%= post.meta.author.user %></span>
+            </div>
+        <% })} %>
+    
+    </div>
+</div>

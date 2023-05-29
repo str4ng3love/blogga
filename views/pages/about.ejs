@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('../partials/head'); %>
-</head>
-<body>
-  <%- include('../partials/header'); %>
-  <section><h2>about blogga</h2></section>
-  <%- include('../partials/footer'); %>
-</body>
-<script  src="/static/script.js" type="module" defer></script>
-
+  </head>
+  <body>
+    <%- include('../partials/header'); %>
+    <section>
+      <h2 class="heading_middle">Blogga</h2>
+      <H4 class="heading_small"
+        >Here at Blogga <br> our mission is to provide our users with best blogging
+        experience.</H4
+      >
+      <div class="spacing"></div>
+      <%- include('../partials/newsletter') %>
+   
+    </section>
+    <%- include('../partials/footer'); %>
+  </body>
+  <script src="/static/script.js" type="module" defer></script>
 </html>

@@ -73,6 +73,9 @@ div.menu {
   align-items: center;
   padding: 1rem;
 }
+.item-container > a {
+  min-width: 8ch;
+}
 .item-container > * {
   width: 80%;
   text-align: center;
@@ -83,7 +86,6 @@ div.menu {
   text-align: center;
   align-self: center;
   font-weight: bold;
-  line-height: 1.6rem;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 2rem;

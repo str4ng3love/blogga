@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('../partials/head'); %>
-</head>
-<body>
-  <%- include('../partials/header'); %>
-  <section><h2>newest posts</h2></section>
-  <%- include('../partials/footer'); %>
-</body>
-<script  src="/static/script.js" type="module" defer></script>
+  </head>
+  <body>
+    <%- include('../partials/header'); %>
+    <section>
+      <div class="hero-container">
+        <h2 class="hero-heading">Welcome to<br> Blogga</h2>
+        <h3 class="hero-heading_sm">Best place to share your ideas</h3>
+        <div class="cta">
+          <% if(sessUser ) { %>
+            <h4>Continue your path</h4> <button id="add-btn" class="button">Here</button>
+        <%  } else { %>
+            <h4>Start your journey</h4> <button id="register-btn2" class="button">Here</button>
+        <%  } %>
+        </div>
+      </div>
+      <%- include('../partials/newestPosts'); %> 
+      <%- include('../partials/newsletter'); %>
 
+    </section>
+    <%- include('../partials/footer'); %>
+  </body>
+  <script src="/static/script.js" type="module" defer></script>
 </html>

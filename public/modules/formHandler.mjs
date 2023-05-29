@@ -165,7 +165,7 @@ const HandleRegister = async (e) => {
 
     ErrorHandler(message);
   } catch (error) {
-    console.log(error);
+   
   }
 };
 
@@ -195,7 +195,6 @@ export const ErrorHandler = (formMsg) => {
   const errSpan = document.createElement("span");
   errSpan.setAttribute("class", "err-span");
   errSpan.innerHTML = formMsg.messages;
-console.log(formMsg.messages[0])
   if (formMsg.messages[0].includes(`success`)) {
     h.style.opacity = 0;
     setTimeout(() => {

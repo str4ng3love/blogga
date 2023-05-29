@@ -40,6 +40,9 @@ const userSchema = new Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: "Post"
     },
+    email:{
+        type: String
+    },
     meta: {
         lastVisited: {
             default: Date.now,

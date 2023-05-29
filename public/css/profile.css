@@ -4,6 +4,7 @@ section.profile-container {
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
+  padding-bottom: calc(2*var(--footerH));
   flex-wrap: wrap;
 }
 

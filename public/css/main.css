@@ -1,12 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
-@import url(header.css);
-@import url(footer.css);
-@import url(users.css);
-@import url(form.css);
-@import url(user.css);
-@import url(posts.css);
-@import url(post.css);
-@import url(profile.css);
+
 :root {
   --colorMain: rgb(20, 20, 20);
   --colorMainAlpha: rgba(20, 20, 20, 0.9);
@@ -28,7 +21,8 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 16px;
   text-decoration: none;
   color: var(--colorText);
@@ -77,17 +71,31 @@ h4 {
 }
 .heading_small {
   font-size: 1.5rem;
-  padding: 1.5rem 0rem;
+  padding: 2rem;
 }
 .hero-container {
-  min-height: calc(100dvh - var(--headerH));
+  position: relative;
+  height: calc(100vh - var(--headerH));
+  height: calc(100dvh - var(--headerH));
 }
 .hero-heading {
-  padding-bottom: 4rem;
-  font-size: 4rem;
+  padding: 3rem 1rem;
+  font-size: 3rem;
 }
 .hero-heading_sm {
-  font-size: 2rem;
+  padding: 2rem 1rem;
+  font-size: 1.5rem;
+}
+.cta {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 4rem 0rem;
+  background-color:var(--color2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0rem 0rem 1rem var(--color2);
 }
 h1 {
   font-size: 2rem;
@@ -160,16 +168,72 @@ h1 {
   color: var(--colorText);
 }
 
-.skewed {
-  min-height: 125px;
-  min-width: 100%;
-  background-color: var(--color3);
-  transform: skewY(3deg) translateY(-3.79rem);
-  position: absolute;
+.calf {
+  min-height: 10rem;
+}
+.newsletter {
+  padding: 4rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--colorMainAlpha);
   box-shadow: 0rem 0rem 1rem var(--colorMain);
-  z-index: 1;
+  margin: 1rem 0rem;
+}
+.newsletter > input,
+label {
+  padding: 1rem;
+  font-weight: bold;
 }
 
+.newsletter > * {
+  margin: 1rem;
+}
+.newsletter > input {
+  color: var(--colorMain);
+}
+.spacing {
+  height: 100px;
+}
+.newest {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 1rem;
+  width: auto;
+}
+.posts {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.post-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 300px;
+  min-height: 200px;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: var(--color3);
+  font-weight: bold;
+  transition: var(--transition);
+  margin: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.post-card > span:nth-child(n + 2) {
+  text-align: end;
+}
+.post-card:hover,
+.post-card:active {
+  background-color: var(--colorHover);
+  scale: 1.1;
+  box-shadow: 0rem 0rem 1rem var(--colorHover);
+}
 /* width */
 ::-webkit-scrollbar {
   color: var(--colorMain);
@@ -200,6 +264,28 @@ h1 {
 #log-in-heading {
   align-self: center;
 }
+@media screen and (min-width: 800px) {
+  .posts {
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+  }
+  .post-card {
+    min-width: 200px;
+  }
+}
+@media screen and (min-width: 1080px) {
+  .post-card {
+    min-width: 200px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .post-card {
+    min-width: 300px;
+  }
+}
+
 @media screen and (max-width: 1080px) {
   .post-container {
     display: block;
@@ -211,6 +297,9 @@ h1 {
     flex-direction: column;
   }
   .heading_middle {
-    padding: 4rem 0rem ;
+    padding: 4rem 0rem;
+  }
+  .newsletter {
+    flex-direction: column;
   }
 }
