@@ -146,12 +146,13 @@ app.get("/users", async (req, res) => {
       );
 
       for (let i = 0; i < users.length; i++) {
-        if (users[i].user === currentUser.user) {
-          users.splice(i, 1);
-        }
         Object.assign(users[i], { displayBefriend: true });
+        
         if (currentUser.meta.friendsList.includes(users[i]._id)) {
           users[i].displayBefriend = false;
+        }
+        if (users[i].user === currentUser.user) {
+          users.splice(i, 1);
         }
       }
     }
