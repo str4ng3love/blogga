@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
-    "run": "node app.js"
+    "online": "node app.js"
   },
   "keywords": [],
   "author": "",
