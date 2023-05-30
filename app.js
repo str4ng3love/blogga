@@ -54,7 +54,8 @@ app.get("/", async (req, res, next) => {
   const newestPosts = await Post.find()
     .sort({ "meta.postedOn": "descending" })
     .limit(3)
-    .select("title").populate("meta.author", "user");
+    .select("title")
+    .populate("meta.author", "user");
   res.render("pages/index", {
     title: "Welcome to Blogga",
     sessUser: req.session.user,
@@ -122,17 +123,16 @@ app.post("/register", async (req, res, next) => {
   }
 });
 app.post("/newsletter", async (req, res, next) => {
-  const email = req.body.email
-let message
+  const email = req.body.email;
+  let message;
   try {
-    const resp = await MailingList.create({email: email})
-    res.status(201).json({messages: [`Email added successfully`]})
+    const resp = await MailingList.create({ email: email });
+    res.status(201).json({ messages: [`Email added successfully`] });
   } catch (error) {
-    console.log(error)
-    next(error)
+    console.log(error);
+    next(error);
   }
-
-})
+});
 app.get("/users", async (req, res) => {
   let users;
 
@@ -147,12 +147,17 @@ app.get("/users", async (req, res) => {
 
       for (let i = 0; i < users.length; i++) {
         Object.assign(users[i], { displayBefriend: true });
-        
+
         if (currentUser.meta.friendsList.includes(users[i]._id)) {
           users[i].displayBefriend = false;
         }
         if (users[i].user === currentUser.user) {
           users.splice(i, 1);
+        }
+        // somehow some elements end uo with unassigned property
+        // console.log(users[i].displayBefriend)
+        if (users[i].displayBefriend === undefined) {
+          i--;
         }
       }
     }
@@ -193,8 +198,9 @@ app.get("/user/:slug", async (req, res) => {
   }
   try {
     posts = await Post.find({ "meta.author": user })
-      .select("title").sort({"meta.postedOn": "desc"}) .populate("meta.author", "user");
-     
+      .select("title")
+      .sort({ "meta.postedOn": "desc" })
+      .populate("meta.author", "user");
   } catch (error) {
     console.log(error.message);
   }
@@ -272,7 +278,6 @@ app.post("/posts/:skip", async (req, res) => {
 });
 
 app.post("/getpost", async (req, res) => {
-
   let post;
   try {
     post = await Post.findOne({ title: req.body.title });
@@ -295,13 +300,13 @@ app.get("/post/:slug", async (req, res) => {
     console.log(error.message);
   }
 
-  if(postData == null){
+  if (postData == null) {
     res.render("pages/error", {
       sessUser: req.session.user,
       title: `Blogga | Error`,
-      message: 'Post not found'    });
+      message: "Post not found",
+    });
   } else {
-
     res.render("pages/post", {
       sessUser: req.session.user,
       title: `Blogga | ${postData.title}`,
@@ -318,7 +323,6 @@ app.get("/about", (req, res) => {
 
 app.get("*", userChecker);
 app.post("/editpost", async (req, res, next) => {
-
   try {
     let resp = await Post.findOneAndUpdate(
       { title: req.body.oldTitle },
@@ -345,7 +349,6 @@ app.post("/editpost", async (req, res, next) => {
   }
 });
 
-
 app.get("/profile", async (req, res) => {
   let user = [];
   let postList = [];
@@ -354,7 +357,7 @@ app.get("/profile", async (req, res) => {
     let posts = await Post.aggregate([
       { $match: { "meta.author": req.session.userId } },
       { $project: { title: 1, "meta.postedOn": 1 } },
-      { $sort: {"meta.postedOn": -1}}
+      { $sort: { "meta.postedOn": -1 } },
     ]);
     postList = posts;
   } catch (error) {
@@ -427,7 +430,6 @@ app.delete("/remove-friend", async (req, res) => {
   }
 });
 app.delete("/post", async (req, res) => {
-  
   try {
     let resp = await Post.deleteOne({ title: req.body.title });
     res.json({ messages: resp });

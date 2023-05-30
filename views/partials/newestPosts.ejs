@@ -4,7 +4,7 @@
     <h2 class="heading_small">Newest posts</h2>
     <div class="posts">
         <% posts.forEach(post => { %>
-            <a href="/post/<%= post.title %>" class="post-card">
+            <a href="/post/<%= post.title %>" class="post-card bg-arrows">
                 <span><%= post.title %></span>
                 <span>by <%= post.meta.author.user %></span>
             </a>
