@@ -40,7 +40,6 @@
 .pagination-panel > div {
   background-color: var(--colorMainAlpha);
   padding: 0.5rem;
-  border-radius: 5px;
   display: flex;
 }
 .pagination_range {
