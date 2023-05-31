@@ -3,7 +3,7 @@
 :root {
   --colorMain: rgb(20, 20, 20);
   --colorMainAlpha: rgba(20, 20, 20, 0.9);
-  --colorHover: #279af1;
+  --colorHover: rgb(39, 154, 241);
   --colorBackground: #403f4c;
   --colorText: rgb(224, 224, 224);
   --color1: #44425c;
@@ -16,7 +16,7 @@
   --wrapperH: calc(100vh - calc(var(--footerH) + var(--headerH)));
   --boxShadow: 0 0 1rem var(--colorMain);
   --transition: all 150ms ease-in;
-  --colorCross: #403f4c;
+  --colorCross:rgb(26, 57, 80);
   --colorArrowsA: #2678b63b;
   --colorArrowsB: #359be973;
   --colorHourGlass: rgb(82, 81, 100);
