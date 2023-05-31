@@ -254,7 +254,7 @@ app.post("/posts/:skip", async (req, res) => {
   let posts;
 
   try {
-    // TODO: sorting by 'author'
+
     if (req.body.sort === "title") {
       posts = await Post.find()
         .sort({ title: "asc" })
@@ -264,7 +264,7 @@ app.post("/posts/:skip", async (req, res) => {
         .populate("meta.author", "user");
     } else if (req.body.sort === "meta.postedOn") {
       posts = await Post.find()
-        .sort({ "meta.postedOn": "asc" })
+        .sort({ "meta.postedOn": "desc" })
         .skip(req.params.skip)
         .limit(20)
         .select("title meta.postedOn")

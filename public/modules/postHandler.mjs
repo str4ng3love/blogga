@@ -69,6 +69,7 @@ export const CreatePost = () => {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     handleCreatePost(e);
+    postForm.scrollTo(0,0)
   });
   container.addEventListener("click", (e) => {
     if (e.target == container) {
@@ -214,6 +215,7 @@ export const EditPost = async (e) => {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     handleEditPost(e, title);
+    postForm.scrollTo(0,0)
   });
   container.addEventListener("click", (e) => {
     if (e.target == container) {
