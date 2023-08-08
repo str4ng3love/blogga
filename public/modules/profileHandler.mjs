@@ -81,7 +81,7 @@ const HandleAddFriend = async (e) => {
 
       ErrorHandler(message);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   }
 };
@@ -101,6 +101,7 @@ const AFErrorHandler = (msg) => {
       location.reload();
     }, 2000);
   }
+  console.log(box)
   box[0].insertBefore(span, box[0].firstChild);
 };
 

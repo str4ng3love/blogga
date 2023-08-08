@@ -167,7 +167,9 @@ const HandleRegister = async (e) => {
   } catch (error) {}
 };
 
+
 export const ErrorHandler = (formMsg) => {
+  console.log(formMsg)
   let h;
   let passwordHeading = document.getElementById("password-change-heading");
   let loginHeading = document.getElementById("log-in-heading");

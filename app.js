@@ -354,12 +354,14 @@ app.get("/profile", async (req, res) => {
   let postList = [];
 
   try {
+
     let posts = await Post.aggregate([
       { $match: { "meta.author": req.session.userId } },
       { $project: { title: 1, "meta.postedOn": 1 } },
       { $sort: { "meta.postedOn": -1 } },
     ]);
     postList = posts;
+
   } catch (error) {
     console.log(error.message);
   }
@@ -385,21 +387,21 @@ app.post("/addfriend", async (req, res) => {
   try {
     const resp = await User.findOne({ user: req.body.user });
     if (resp === null) {
-      res.status(404).json({ messages: ["User not found."], fields: [``] });
+      res.status(404).json({ messages: ["User not found."], fields: [] });
     } else if (resp.user === req.session.user) {
       res
         .status(401)
-        .json({ messages: [`Can't follow yourself.`], fields: [``] });
+        .json({ messages: [`Can't follow yourself.`], fields: [] });
     } else if (resp.user) {
       const ans = await User.findOneAndUpdate(
         { user: req.session.user },
         { $addToSet: { "meta.friendsList": resp._id } }
       );
-      res.json({ messages: ["Author followed successfully."], fields: [``] });
+      res.json({ messages: ["Author followed successfully."], fields: [] });
     } else {
       res.status(500).json({
         messages: ["Something went wrong, try again later."],
-        fields: [""],
+        fields: [],
       });
     }
   } catch (error) {
